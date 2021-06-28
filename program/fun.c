@@ -68,7 +68,7 @@ void Display(TeleBook *head)
 
 //结点的有序插入
 //按编号为序插入记录s，返回链表头指针
-TeleBook *Insert(TeleBook *head, TeleBook *s) //未检验正确性，未考虑出现相同编号的情况
+TeleBook *Insert(TeleBook *head, TeleBook *s) //未检验正确性
 {
     //这个指针用来做中间值
     TeleBook *fp;
@@ -103,13 +103,40 @@ TeleBook *Insert(TeleBook *head, TeleBook *s) //未检验正确性，未考虑�
         return head;
     }
 }
+
 //输入待插入的编号、姓名、联系电话、电子邮件地址等信息，
 //调用Insert函数按“编号”做有序插入，输出插入成功信息，返回链表头指针。
-TeleBook *Insert_a_record(TeleBook *head)
+TeleBook *Insert_a_record(TeleBook *head)//未检验正确性，未考虑出现相同编号的情况
 {
     TeleBook *p;
     printf("Please input a data(number name phonenumber email):");
-    scanf("%s %s %s %s", p->num, p->name, p->phonenum, p->email);
+    while (1)
+    {
+        scanf("%s %s %s %s", p->num, p->name, p->phonenum, p->email);
+        //进行输入数据检查，是否导致字符数组溢出，如果出现问题则重新输入该条数据
+        if (Check(p->num, NUM_SIZE) == 0)
+        {
+            printf("Number enter error! Please retype the whole data and limit the number in %d size.\n", NUM_SIZE);
+            continue;
+        }
+        if (Check(p->name, NAME_SIZE) == 0)
+        {
+            printf("Number enter error! Please retype the whole data and limit the name in %d size.\n", NAME_SIZE);
+            continue;
+        }
+        if (Check(p->phonenum, PHONENUM_SIZE) == 0)
+        {
+            printf("Number enter error! Please retype the whole data and limit the phonenumber in %d size.\n", PHONENUM_SIZE);
+            continue;
+        }
+        if(Check(p->email,EMAIL_SIZE)==0)
+        {
+            printf("Number enter error! Please retype the whole data and limit the email in %d size.\n",EMAIL_SIZE);
+            continue;
+        }
+        //如果上述情况都没出现，则成功输入，退出循环
+        break;
+    }
     if (Insert(head, p) != NULL)
         printf("Insert succeed!\n");
     return head;
