@@ -192,7 +192,7 @@ int Str_to_num(char *str)
     int sum = 0;
     while (*str != '\0')
     {
-        if (*str < '0' ||*str > '9')
+        if (*str < '0' || *str > '9')
             return -1;
         sum = sum * 10 + *str - '0';
     }
@@ -202,15 +202,15 @@ int Str_to_num(char *str)
 //编号修正函数
 //使得所有编号均为三位数的形式
 //如1转化成001，12变成012
-void Num_modi(char*num)
+void Num_modi(char *num)
 {
     int n;
     int i;
-    for(n=strlen(num);n<3;n++)
+    for (n = strlen(num); n < 3; n++)
     {
         //每次循环让字符串整体后移一个位置，并且在最开头添上'0'
-        for(i=n;i>0;i--)
-            num[i]=num[i-1];
-        num[0]='0';
+        for (i = n; i > 0; i--)
+            num[i] = num[i - 1];
+        num[0] = '0';
     }
 }
