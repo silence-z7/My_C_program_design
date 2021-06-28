@@ -86,4 +86,9 @@ int Check(char *str, int size);
 //字符转数字函数，若出现非数字字符返回-1，成功返回该数字
 int Str_to_num(char*str);
 
+//编号修正函数
+//使得所有编号均为三位数的形式
+//如1转化成001，12变成012
+void Num_modi(char*num);
+
 #endif
