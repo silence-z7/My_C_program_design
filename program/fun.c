@@ -207,14 +207,16 @@ void Free_all(TeleBook *head)
 int Check(char *str, int size)
 {
     int i;
-
+    //如果字符数组第一个就是空字符，即无内容，返回0
     if (*str == '\0')
         return 0;
+    //如果在字符数组的非首位空间中找到了空字符，即终止符，返回1
     for (i = 1; i < size; i++)
     {
         if (*(str + i) == '\0')
             return 1;
     }
+    //如果字符数组中未出现空字符，返回0
     return 0;
 }
 
