@@ -68,8 +68,40 @@ void Display(TeleBook *head)
 
 //结点的有序插入
 //按编号为序插入记录s，返回链表头指针
-TeleBook *Insert(TeleBook *head, TeleBook *s)
+TeleBook *Insert(TeleBook *head, TeleBook *s) //未检验正确性，未考虑出现相同编号的情况
 {
+    //这个指针用来做中间值
+    TeleBook *fp;
+    //这个指针作为循环变量
+    TeleBook *data;
+    //首先将新数据的编号转化成标准形式
+    Num_modi(s->num);
+    //如果新插入的数据编号顺序在链表头的前面
+    if (strcmp(s->num, head->num) < 0)
+    {
+        fp = head->next;
+        head = s;
+        s->next = fp;
+        return head;
+    }
+    data = head;
+    while (data != NULL && data->next != NULL)
+    {
+        if (strcmp(data->num, s->num) < 0 && strcmp(s->num, data->next->num) > 0)
+        {
+            fp = data->next;
+            data->next = s;
+            s->next = fp;
+            return head;
+        }
+    }
+    //如果新插入数据编号顺序在链表末尾的后面
+    if (data->next == NULL)
+    {
+        data->next = s;
+        s->next = NULL;
+        return head;
+    }
 }
 //输入待插入的编号、姓名、联系电话、电子邮件地址等信息，
 //调用Insert函数按“编号”做有序插入，输出插入成功信息，返回链表头指针。
