@@ -245,7 +245,7 @@ TeleBook *AddfromText(TeleBook *head, char *filename)//未检验
 }
 
 //将链表结点记录写入到文件中
-//将链表中锋结点记录全部写入文件records.txt
+//将链表中的结点记录全部写入文件records.txt
 void WritetoText(TeleBook *head, char *file)
 {
     char outfile[20];
@@ -401,5 +401,72 @@ void Num_modi(char *num)
         for (i = n; i > 0; i--)
             num[i] = num[i - 1];
         num[0] = '0';
+    }
+}
+
+//修改数据函数//
+//修改链表中的某数据//
+TeleBook *Alter_list(TeleBook*head)
+{
+    char s[20];
+    TeleBook *data=head;
+    //找到想要修改的结构体//
+    printf("Please input the name you want to alter:");
+    gets(s);
+    if(head==NULL)
+    {
+        printf("error!");
+        return head;
+    }  
+    while(strcmp(s,data->name)!=0)
+    {
+        data=data->next;
+        if(data==NULL)
+        {
+             printf("Not Found!\n");
+             return head;
+        }
+    }
+    printf("Found Succeed\n");
+    printf("Name:");puts(data->name);
+    printf("  Number:");puts(data->num);
+    printf("  Phonenumber:");puts(data->phonenum);
+    printf("  E-mail:");puts(data->email);
+    putchar('\n');
+    //选择想要修改的数据//
+    while(1)
+    {   
+        int n;
+        printf("Alter(1.Name 2.Number 3.Phonenumber 4.E-mail 5 Quit):");
+        scanf("%d",&n);
+        switch(n)
+        {
+            case 1:
+            {
+                printf("Please input new name:");
+                gets(data->name);
+            }
+            break;
+            case 2:
+            {
+                printf("Please input new number:");
+                gets(data->num);
+            }
+            break;
+            case 3:
+            {
+                printf("Please input new phonenumber:");
+                gets(data->phonenum);
+            }
+            break;
+            case 4:
+            {
+                printf("Please input new E-mail:");
+                gets(data->email);
+            }
+            break;
+            case 5:return head;break;
+            default:printf("Input error!");break;
+        }
     }
 }
