@@ -218,7 +218,19 @@ TeleBook *AddfromText(TeleBook *head, char *filename);
 void WritetoText(TeleBook *head, char *filename);
 
 //链表反序存放
-TeleBook *Reverse(TeleBook *head);
+TeleBook *Reverse(TeleBook *head)
+{
+    //分别存放前一个数据地址和后一个数据地址
+    TeleBook*fp1=NULL,*fp2;  
+    while(head!=NULL)
+    {
+        fp2=head->next;
+        head->next=fp1;
+        fp1=head;
+        head=fp2;
+    }
+    return fp1;
+}
 
 //删除雷同记录
 //删除链表中姓名，电话，电子邮件地址均相同的记录
