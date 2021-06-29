@@ -180,6 +180,10 @@ TeleBook *Delete_a_record(TeleBook *head)
 //排序
 //以编号为序升序排
 void Sort_by_num(TeleBook *head);
+{
+
+
+}
 
 //结点数据查询
 //查找编号为num的记录，成功则返回地址，失败返回NULL
@@ -205,8 +209,12 @@ void Query_a_record(TeleBook *head)
 	Check(num,NUM_SIZE);
     data=Query(head,num);
     if(data != NULL)
+    {   
         printf("Operation Success\n");
         printf("%s %s %s %s",data->num,data->name,data->phonenum,data->email);
+    }
+    else
+        printf("Input error!\n");
 }
 
 //从文件中整批输入信息
@@ -235,6 +243,22 @@ TeleBook *Reverse(TeleBook *head)
 //删除雷同记录
 //删除链表中姓名，电话，电子邮件地址均相同的记录
 TeleBook *DeleteSame(TeleBook *head);
+{   
+    TeleBook *p1,*p2;
+	int i=0;
+    for(data=head;data!=NULL;data=data->next)
+       for(p1=data,p2=data->next;p2!=NULL;p1=p2,p2=p2->next)
+	        if (strcmp(data->name,p2->name) == 0 && strcmp(data->phonenum,p2->phonenum) == 0 && strcmp(data->email,p2->email) == 0)
+	        {     
+                i++;
+                p1->next=p2->next;
+                free(p2);
+            }
+            if(i>0)  printf("Delete Succeed\n"); 
+            else      printf("No intems in common\n"); 
+     return(head);
+ 
+}
 
 //退出管理系统
 void Quit(TeleBook *head)
