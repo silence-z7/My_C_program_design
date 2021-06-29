@@ -268,9 +268,9 @@ TeleBook *Reverse(TeleBook *head)
 
 //删除雷同记录
 //删除链表中姓名，电话，电子邮件地址均相同的记录
-TeleBook *DeleteSame(TeleBook *head);
+TeleBook *DeleteSame(TeleBook *head)
 {   
-    TeleBook *p1,*p2;
+    TeleBook *p1,*p2,*data;
 	int i=0;
     for(data=head;data!=NULL;data=data->next)
        for(p1=data,p2=data->next;p2!=NULL;p1=p2,p2=p2->next)
