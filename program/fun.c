@@ -183,10 +183,6 @@ TeleBook *Delete_a_record(TeleBook *head)
 //排序
 //以编号为序升序排
 void Sort_by_num(TeleBook *head);
-{
-
-
-}
 
 //结点数据查询
 //查找编号为num的记录，成功则返回地址，失败返回NULL
@@ -212,6 +208,7 @@ void Query_a_record(TeleBook *head)
 	Check(num,NUM_SIZE);
     data=Query(head,num);
     if(data != NULL)
+    {
         printf("Operation Success\n");
         printf("%s %s %s %s",data->num,data->name,data->phonenum,data->email);
     }
@@ -249,7 +246,25 @@ TeleBook *AddfromText(TeleBook *head, char *filename)//未检验
 
 //将链表结点记录写入到文件中
 //将链表中锋结点记录全部写入文件records.txt
-void WritetoText(TeleBook *head, char *filename);
+void WritetoText(TeleBook *head, char *file)
+{
+    char outfile[20];
+    FILE *fp;
+    TeleBook *data;
+    //输入文件名并打开文件//
+    printf("Input the name of outfile:\n");
+    scanf("%s",outfile); 
+    if((fp=fopen(outfile,"w"))==NULL)
+    {
+         printf("open error!\n");
+	     exit(0);
+    }
+    //将结点信息依次写入文件//
+    for(data=head;data!=NULL;data=data->next)  
+        fprintf(fp,"%s  %s  %s  %s\n",data->num,data->name,data->phonenum,data->email);
+    fclose(fp);
+    printf(" Write Succeed!\n");
+}
 
 //链表反序存放
 TeleBook *Reverse(TeleBook *head)
