@@ -76,6 +76,9 @@ TeleBook *Insert(TeleBook *head, TeleBook *s) //未检验正确性
     TeleBook *data;
     //首先将新数据的编号转化成标准形式
     Num_modi(s->num);
+    //如果链表中没有数据
+    if(head==NULL)
+        return s;
     //如果新插入的数据编号顺序在链表头的前面
     if (strcmp(s->num, head->num) < 0)
     {
