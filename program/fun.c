@@ -186,7 +186,7 @@ TeleBook *Delete_a_record(TeleBook *head)
 
 //排序
 //以编号为序升序排
-void Sort_by_num(TeleBook *head);
+TeleBook *Sort_by_num(TeleBook *head);
 {
 }
 
