@@ -151,11 +151,15 @@ TeleBook *Delete(TeleBook *head, char *num) //未检验
 {
     //循环指针
     TeleBook *data = head;
+    //中间指针
+    TeleBook *fp;
     while (data != NULL)
     {
         if (strcmp(data->num, num) == 0)
         {
+            fp = data;
             data = data->next;
+            free(data);
             printf("Delete Succeed!");
             return head;
         }
@@ -269,6 +273,7 @@ TeleBook *Reverse(TeleBook *head)
 //删除链表中姓名，电话，电子邮件地址均相同的记录
 TeleBook *DeleteSame(TeleBook *head)
 {
+    TeleBook *data;
     TeleBook *p1, *p2;
     int i = 0;
     for (data = head; data != NULL; data = data->next)
