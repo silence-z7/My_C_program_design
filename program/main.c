@@ -52,19 +52,18 @@ int main()
                 printf("1.store them.\n");
                 printf("2.abandon them.\n");
                 printf("enter 1 or 2 to give your choice:");
-                while(1)
+                while (1)
                 {
-                    scanf("%c",&choice7);
-                    if(choice7=='1')
+                    scanf("%c", &choice7);
+                    if (choice7 == '1')
                     {
                         //此处补充储存数据代码
                         break;
                     }
-                    if(choice7=='2')
-                    {
-                        //读取文件数据并覆盖链表数据代码
-                        break;
-                    }
+                    if (choice7 == '2')
+                        ;
+                    //先释放空间
+                    //读取文件数据并覆盖链表数据代码
                     else
                         printf("Enter error! Please give your choice in 1 or 2.\n");
                 }
