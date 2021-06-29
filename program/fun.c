@@ -153,6 +153,7 @@ TeleBook *Delete(TeleBook *head, char *num)//未检验
         if (strcmp(data->num, num) == 0)
         {
             data = data->next;
+			printf("Delete Succeed!");
             return head;
         }
     }
@@ -182,9 +183,31 @@ void Sort_by_num(TeleBook *head);
 
 //结点数据查询
 //查找编号为num的记录，成功则返回地址，失败返回NULL
-TeleBook *Query(TeleBook *head, char *num);
-//输入带查找编号，用Query查找，输出成功与否及结点信息
-void Query_a_record(TeleBook *head);
+TeleBook *Query(TeleBook *head, char *num)
+{
+	TeleBook *data=head;
+	while(data != NULL)
+	{
+		if(strcmp(data->num,num)==0)
+			return data;
+		data=data->next;
+	}
+	return(NULL);
+}
+//输入待查找编号，用Query查找，输出成功与否及结点信息
+void Query_a_record(TeleBook *head)
+{
+    char num[NUM_SIZE];
+    TeleBook *data;
+	printf("Please input the number you want to search:");
+	gets(num);
+	Num_modi(num);
+	Check(num,NUM_SIZE);
+    data=Query(head,num);
+    if(data != NULL)
+        printf("Operation Success\n");
+        printf("%s %s %s %s",data->num,data->name,data->phonenum,data->email);
+}
 
 //从文件中整批输入信息
 //从文件filename添加一批记录到链表中，用Insert()有序插入
