@@ -29,18 +29,29 @@ TeleBook *Create()
 {
     TeleBook *head = (TeleBook *)malloc(LEN);
     TeleBook *p = head;
-    int n;
-    printf("Please input the number of data:");
-    scanf("%d", &n);
-    while (n-- != 0)
+    char ch = '1';
+    while (ch != '0')
     {
         printf("Please input a data(number name phonenumber email):");
         scanf("%s %s %s %s", p->num, p->name, p->phonenum, p->email);
-        if (n != 0)
-            p->next = malloc(LEN);
-        else
-            p->next = NULL;
-        p = p->next;
+        //吞掉缓冲区的换行符
+        getchar();
+        printf("Add more data? Enter 1 or enter 0 to end:");
+        while (1)
+        {
+            scanf("%c", &ch);
+            if (ch == '1')
+            {
+                p->next = malloc(LEN);
+                continue;
+            }
+            else if (ch == '0')
+
+                
+            else
+                p->next = NULL;
+            p = p->next;
+        }
     }
 
     return head;
@@ -186,7 +197,7 @@ TeleBook *Delete_a_record(TeleBook *head)
 
 //排序
 //以编号为序升序排
-TeleBook *Sort_by_num(TeleBook *head)//未检验
+TeleBook *Sort_by_num(TeleBook *head) //未检验
 {
     //循环指针
     TeleBook *data1, *data2;
