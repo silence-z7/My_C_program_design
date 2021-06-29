@@ -106,7 +106,7 @@ TeleBook *Insert(TeleBook *head, TeleBook *s) //未检验正确性
 
 //输入待插入的编号、姓名、联系电话、电子邮件地址等信息，
 //调用Insert函数按“编号”做有序插入，输出插入成功信息，返回链表头指针。
-TeleBook *Insert_a_record(TeleBook *head)//未检验正确性，未考虑出现相同编号的情况
+TeleBook *Insert_a_record(TeleBook *head) //未检验正确性，未考虑出现相同编号的情况
 {
     TeleBook *p;
     printf("Please input a data(number name phonenumber email):");
@@ -129,9 +129,9 @@ TeleBook *Insert_a_record(TeleBook *head)//未检验正确性，未考虑出现�
             printf("Number enter error! Please retype the whole data and limit the phonenumber in %d size.\n", PHONENUM_SIZE);
             continue;
         }
-        if(Check(p->email,EMAIL_SIZE)==0)
+        if (Check(p->email, EMAIL_SIZE) == 0)
         {
-            printf("Number enter error! Please retype the whole data and limit the email in %d size.\n",EMAIL_SIZE);
+            printf("Number enter error! Please retype the whole data and limit the email in %d size.\n", EMAIL_SIZE);
             continue;
         }
         //如果上述情况都没出现，则成功输入，退出循环
@@ -144,9 +144,37 @@ TeleBook *Insert_a_record(TeleBook *head)//未检验正确性，未考虑出现�
 
 //结点删除
 //删除编号为num的记录
-TeleBook *Delete(TeleBook *head, char *num);
+TeleBook *Delete(TeleBook *head, char *num)//未检验
+{
+    //循环指针
+    TeleBook *data = head;
+    while (data != NULL)
+    {
+        if (strcmp(data->num, num) == 0)
+        {
+            data = data->next;
+            return head;
+        }
+    }
+    printf("Cannot find the number you input. Delete fail.\n");
+    return head;
+}
 //输入待删除编号，用Delet删除，输出是否删除成功
-TeleBook *Delete_a_record(TeleBook *head);
+TeleBook *Delete_a_record(TeleBook *head)
+{
+    char num[NUM_SIZE];
+    printf("Please input the number of the data you want to delete:");
+    while (1)
+    {
+        scanf("%s", num);
+        if(Check(num,NUM_SIZE)==1)
+            break;
+        printf("enter error! Please limit it in %d size.\n",NUM_SIZE);
+    }
+    Num_modi(num);
+    head=Delete(head,num);
+    return head;
+}
 
 //排序
 //以编号为序升序排
