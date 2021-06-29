@@ -8,11 +8,18 @@
 
 int main()
 {
-    TeleBook *list;
-
+    //调试Display_Main_Menu()函数
+    /*
     Display_Main_Menu();
+    */
+
+    //待调试
+    //调试Create()函数，Display()函数
+    /*
+    TeleBook *list;
     list = Create();
     Display(list);
+    */
 
     //调试Num_modi()函数
     /*
@@ -43,14 +50,15 @@ TeleBook *Create()
             if (ch == '1')
             {
                 p->next = malloc(LEN);
-                continue;
+                break;
             }
-            else if (ch == '0');
-
-                
-            else
+            else if (ch == '0')
+            {
                 p->next = NULL;
-            p = p->next;
+                return head;
+            }
+            else
+                printf("enter error! Please input 1 or 0.\n");
         }
     }
 
@@ -197,7 +205,7 @@ TeleBook *Delete_a_record(TeleBook *head)
 
 //排序
 //以编号为序升序排
-TeleBook *Sort_by_num(TeleBook *head)//未检验
+TeleBook *Sort_by_num(TeleBook *head) //未检验
 {
     //循环指针
     TeleBook *data1, *data2;
@@ -262,12 +270,12 @@ void Query_a_record(TeleBook *head)
 {
     char num[NUM_SIZE];
     TeleBook *data;
-	printf("Please input the number you want to search:");
-	gets(num);
-	Num_modi(num);
-	Check(num,NUM_SIZE);
-    data=Query(head,num);
-    if(data != NULL)
+    printf("Please input the number you want to search:");
+    gets(num);
+    Num_modi(num);
+    Check(num, NUM_SIZE);
+    data = Query(head, num);
+    if (data != NULL)
     {
         printf("Operation Success\n");
         printf("%s %s %s %s", data->num, data->name, data->phonenum, data->email);
@@ -313,15 +321,15 @@ void WritetoText(TeleBook *head, char *file)
     TeleBook *data;
     //输入文件名并打开文件//
     printf("Input the name of outfile:\n");
-    scanf("%s",outfile); 
-    if((fp=fopen(outfile,"w"))==NULL)
+    scanf("%s", outfile);
+    if ((fp = fopen(outfile, "w")) == NULL)
     {
-         printf("open error!\n");
-	     exit(0);
+        printf("open error!\n");
+        exit(0);
     }
     //将结点信息依次写入文件//
-    for(data=head;data!=NULL;data=data->next)  
-        fprintf(fp,"%s  %s  %s  %s\n",data->num,data->name,data->phonenum,data->email);
+    for (data = head; data != NULL; data = data->next)
+        fprintf(fp, "%s  %s  %s  %s\n", data->num, data->name, data->phonenum, data->email);
     fclose(fp);
     printf(" Write Succeed!\n");
 }
@@ -468,67 +476,75 @@ void Num_modi(char *num)
 
 //修改数据函数//
 //修改链表中的某数据//
-TeleBook *Alter_list(TeleBook*head)
+TeleBook *Alter_list(TeleBook *head)
 {
     char s[20];
-    TeleBook *data=head;
+    TeleBook *data = head;
     //找到想要修改的结构体//
     printf("Please input the name you want to alter:");
     gets(s);
-    if(head==NULL)
+    if (head == NULL)
     {
         printf("error!");
         return head;
-    }  
-    while(strcmp(s,data->name)!=0)
+    }
+    while (strcmp(s, data->name) != 0)
     {
-        data=data->next;
-        if(data==NULL)
+        data = data->next;
+        if (data == NULL)
         {
-             printf("Not Found!\n");
-             return head;
+            printf("Not Found!\n");
+            return head;
         }
     }
     printf("Found Succeed\n");
-    printf("Name:");puts(data->name);
-    printf("  Number:");puts(data->num);
-    printf("  Phonenumber:");puts(data->phonenum);
-    printf("  E-mail:");puts(data->email);
+    printf("Name:");
+    puts(data->name);
+    printf("  Number:");
+    puts(data->num);
+    printf("  Phonenumber:");
+    puts(data->phonenum);
+    printf("  E-mail:");
+    puts(data->email);
     putchar('\n');
     //选择想要修改的数据//
-    while(1)
-    {   
+    while (1)
+    {
         int n;
         printf("Alter(1.Name 2.Number 3.Phonenumber 4.E-mail 5 Quit):");
-        scanf("%d",&n);
-        switch(n)
+        scanf("%d", &n);
+        switch (n)
         {
-            case 1:
-            {
-                printf("Please input new name:");
-                gets(data->name);
-            }
+        case 1:
+        {
+            printf("Please input new name:");
+            gets(data->name);
+        }
+        break;
+        case 2:
+        {
+            printf("Please input new number:");
+            gets(data->num);
+        }
+        break;
+        case 3:
+        {
+            printf("Please input new phonenumber:");
+            gets(data->phonenum);
+        }
+        break;
+        case 4:
+        {
+            printf("Please input new E-mail:");
+            gets(data->email);
+        }
+        break;
+        case 5:
+            return head;
             break;
-            case 2:
-            {
-                printf("Please input new number:");
-                gets(data->num);
-            }
+        default:
+            printf("Input error!");
             break;
-            case 3:
-            {
-                printf("Please input new phonenumber:");
-                gets(data->phonenum);
-            }
-            break;
-            case 4:
-            {
-                printf("Please input new E-mail:");
-                gets(data->email);
-            }
-            break;
-            case 5:return head;break;
-            default:printf("Input error!");break;
         }
     }
 }
