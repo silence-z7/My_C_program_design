@@ -186,8 +186,51 @@ TeleBook *Delete_a_record(TeleBook *head)
 
 //排序
 //以编号为序升序排
-TeleBook *Sort_by_num(TeleBook *head);
+TeleBook *Sort_by_num(TeleBook *head)//未检验
 {
+    //循环指针
+    TeleBook *data1, *data2;
+    //中间指针
+    TeleBook *fp1, *fp2;
+    //data2的前一个结点指针
+    TeleBook *pre;
+    //如果链表中只有一个结点，直接返回即可
+    if (head->next == NULL)
+        return head;
+    //冒泡排序
+    //data1的循环只用作计数
+    for (data1 = head; data1->next != NULL; data1 = data1->next)
+    {
+        //data2用作冒泡
+        //由于head指针没有pre,故须单独讨论
+        if (strcmp(head->num, head->next->num) > 0)
+        {
+            //进行相邻结点的交换
+            fp1 = head->next;
+            head->next = head->next->next;
+            fp1->next = head;
+            head = fp1;
+        }
+        pre = head;
+        data2 = head->next;
+        while (data2->next != NULL)
+        {
+            if (strcmp(data2->num, data2->next->num) > 0)
+            {
+                //相邻结点交换
+                pre->next = data2->next;
+                fp1 = data2->next->next;
+                data2->next->next = data2;
+                data2->next = fp1;
+                pre = pre->next;
+            }
+            else
+            {
+                pre = data2;
+                data2 = data2->next;
+            }
+        }
+    }
 }
 
 //结点数据查询
