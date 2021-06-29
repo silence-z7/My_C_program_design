@@ -77,7 +77,7 @@ TeleBook *Insert(TeleBook *head, TeleBook *s) //未检验正确性
     //首先将新数据的编号转化成标准形式
     Num_modi(s->num);
     //如果链表中没有数据
-    if(head==NULL)
+    if (head == NULL)
         return s;
     //如果新插入的数据编号顺序在链表头的前面
     if (strcmp(s->num, head->num) < 0)
@@ -183,6 +183,11 @@ TeleBook *Delete_a_record(TeleBook *head)
 //排序
 //以编号为序升序排
 void Sort_by_num(TeleBook *head);
+<<<<<<< HEAD
+=======
+{
+}
+>>>>>>> main
 
 //结点数据查询
 //查找编号为num的记录，成功则返回地址，失败返回NULL
@@ -202,15 +207,24 @@ void Query_a_record(TeleBook *head)
 {
     char num[NUM_SIZE];
     TeleBook *data;
+<<<<<<< HEAD
 	printf("Please input the number you want to search:");
 	gets(num);
 	Num_modi(num);
 	Check(num,NUM_SIZE);
     data=Query(head,num);
     if(data != NULL)
+=======
+    printf("Please input the number you want to search:");
+    gets(num);
+    Num_modi(num);
+    Check(num, NUM_SIZE);
+    data = Query(head, num);
+    if (data != NULL)
+>>>>>>> main
     {
         printf("Operation Success\n");
-        printf("%s %s %s %s",data->num,data->name,data->phonenum,data->email);
+        printf("%s %s %s %s", data->num, data->name, data->phonenum, data->email);
     }
     else
         printf("Input error!\n");
@@ -218,7 +232,7 @@ void Query_a_record(TeleBook *head)
 
 //从文件中整批输入信息
 //从文件filename添加一批记录到链表中，用Insert()有序插入
-TeleBook *AddfromText(TeleBook *head, char *filename)//未检验
+TeleBook *AddfromText(TeleBook *head, char *filename) //未检验
 {
     //循环指针
     TeleBook *data;
@@ -239,8 +253,8 @@ TeleBook *AddfromText(TeleBook *head, char *filename)//未检验
     //如果文件指针不指向文件末尾，读入一条数据并插入链表
     while (in != EOF)
     {
-        fread(data,LEN,1,in);
-        Insert(head,data);
+        fread(data, LEN, 1, in);
+        Insert(head, data);
     }
 }
 
@@ -284,6 +298,7 @@ TeleBook *Reverse(TeleBook *head)
 //删除雷同记录
 //删除链表中姓名，电话，电子邮件地址均相同的记录
 TeleBook *DeleteSame(TeleBook *head)
+<<<<<<< HEAD
 {   
     TeleBook *p1,*p2,*data;
 	int i=0;
@@ -291,14 +306,24 @@ TeleBook *DeleteSame(TeleBook *head)
        for(p1=data,p2=data->next;p2!=NULL;p1=p2,p2=p2->next)
 	        if (strcmp(data->name,p2->name) == 0 && strcmp(data->phonenum,p2->phonenum) == 0 && strcmp(data->email,p2->email) == 0)
 	        {     
+=======
+{
+    TeleBook *p1, *p2;
+    int i = 0;
+    for (data = head; data != NULL; data = data->next)
+        for (p1 = data, p2 = data->next; p2 != NULL; p1 = p2, p2 = p2->next)
+            if (strcmp(data->name, p2->name) == 0 && strcmp(data->phonenum, p2->phonenum) == 0 && strcmp(data->email, p2->email) == 0)
+            {
+>>>>>>> main
                 i++;
-                p1->next=p2->next;
+                p1->next = p2->next;
                 free(p2);
             }
-            if(i>0)  printf("Delete Succeed\n"); 
-            else      printf("No intems in common\n"); 
-     return(head);
- 
+    if (i > 0)
+        printf("Delete Succeed\n");
+    else
+        printf("No intems in common\n");
+    return (head);
 }
 
 //退出管理系统
