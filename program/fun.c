@@ -45,7 +45,7 @@ TeleBook *Create()
                 p->next = malloc(LEN);
                 continue;
             }
-            else if (ch == '0')
+            else if (ch == '0');
 
                 
             else
@@ -197,7 +197,7 @@ TeleBook *Delete_a_record(TeleBook *head)
 
 //排序
 //以编号为序升序排
-TeleBook *Sort_by_num(TeleBook *head);//未检验
+TeleBook *Sort_by_num(TeleBook *head)//未检验
 {
     //循环指针
     TeleBook *data1, *data2;
@@ -243,7 +243,6 @@ TeleBook *Sort_by_num(TeleBook *head);//未检验
         }
     }
 }
->>>>>>> main
 
 //结点数据查询
 //查找编号为num的记录，成功则返回地址，失败返回NULL
@@ -263,21 +262,12 @@ void Query_a_record(TeleBook *head)
 {
     char num[NUM_SIZE];
     TeleBook *data;
-<<<<<<< HEAD
 	printf("Please input the number you want to search:");
 	gets(num);
 	Num_modi(num);
 	Check(num,NUM_SIZE);
     data=Query(head,num);
     if(data != NULL)
-=======
-    printf("Please input the number you want to search:");
-    gets(num);
-    Num_modi(num);
-    Check(num, NUM_SIZE);
-    data = Query(head, num);
-    if (data != NULL)
->>>>>>> main
     {
         printf("Operation Success\n");
         printf("%s %s %s %s", data->num, data->name, data->phonenum, data->email);
@@ -354,15 +344,6 @@ TeleBook *Reverse(TeleBook *head)
 //删除雷同记录
 //删除链表中姓名，电话，电子邮件地址均相同的记录
 TeleBook *DeleteSame(TeleBook *head)
-<<<<<<< HEAD
-{   
-    TeleBook *p1,*p2,*data;
-	int i=0;
-    for(data=head;data!=NULL;data=data->next)
-       for(p1=data,p2=data->next;p2!=NULL;p1=p2,p2=p2->next)
-	        if (strcmp(data->name,p2->name) == 0 && strcmp(data->phonenum,p2->phonenum) == 0 && strcmp(data->email,p2->email) == 0)
-	        {     
-=======
 {
     TeleBook *data;
     TeleBook *p1, *p2;
@@ -371,7 +352,6 @@ TeleBook *DeleteSame(TeleBook *head)
         for (p1 = data, p2 = data->next; p2 != NULL; p1 = p2, p2 = p2->next)
             if (strcmp(data->name, p2->name) == 0 && strcmp(data->phonenum, p2->phonenum) == 0 && strcmp(data->email, p2->email) == 0)
             {
->>>>>>> main
                 i++;
                 p1->next = p2->next;
                 free(p2);

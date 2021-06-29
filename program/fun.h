@@ -91,4 +91,8 @@ int Str_to_num(char *str);
 //如1转化成001，12变成012
 void Num_modi(char *num);
 
+//修改数据函数//
+//修改链表中的某数据//
+TeleBook *Alter_list(TeleBook*head);
+
 #endif
