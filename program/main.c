@@ -3,9 +3,10 @@
 #include "fun.h"
 int main()
 {
-    TeleBook *list;
+    TeleBook *list = NULL;
     char choice_ch[CHOICE_SIZE];
     int choice;
+    char choice7;
 
     while (1)
     {
@@ -42,7 +43,32 @@ int main()
         case 6:
             system("pause");
             break;
+        //从文件中导入数据到链表
         case 7:
+            //如果链表中已存在数据，应先向用户确认储存下该数据还是放弃数据
+            if (list != NULL)
+            {
+                printf("Data in the linked list is not stored. Do you want to stored them or abandon them?\n");
+                printf("1.store them.\n");
+                printf("2.abandon them.\n");
+                printf("enter 1 or 2 to give your choice:");
+                while(1)
+                {
+                    scanf("%c",&choice7);
+                    if(choice7=='1')
+                    {
+                        //此处补充储存数据代码
+                        break;
+                    }
+                    if(choice7=='2')
+                    {
+                        //读取文件数据并覆盖链表数据代码
+                        break;
+                    }
+                    else
+                        printf("Enter error! Please give your choice in 1 or 2.\n");
+                }
+            }
             system("pause");
             break;
         case 8:
