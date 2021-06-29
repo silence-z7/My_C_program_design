@@ -144,7 +144,7 @@ TeleBook *Insert_a_record(TeleBook *head) //未检验正确性，未考虑出现
 
 //结点删除
 //删除编号为num的记录
-TeleBook *Delete(TeleBook *head, char *num)//未检验
+TeleBook *Delete(TeleBook *head, char *num) //未检验
 {
     //循环指针
     TeleBook *data = head;
@@ -153,7 +153,7 @@ TeleBook *Delete(TeleBook *head, char *num)//未检验
         if (strcmp(data->num, num) == 0)
         {
             data = data->next;
-			printf("Delete Succeed!");
+            printf("Delete Succeed!");
             return head;
         }
     }
@@ -168,12 +168,12 @@ TeleBook *Delete_a_record(TeleBook *head)
     while (1)
     {
         scanf("%s", num);
-        if(Check(num,NUM_SIZE)==1)
+        if (Check(num, NUM_SIZE) == 1)
             break;
-        printf("enter error! Please limit it in %d size.\n",NUM_SIZE);
+        printf("enter error! Please limit it in %d size.\n", NUM_SIZE);
     }
     Num_modi(num);
-    head=Delete(head,num);
+    head = Delete(head, num);
     return head;
 }
 
@@ -185,33 +185,57 @@ void Sort_by_num(TeleBook *head);
 //查找编号为num的记录，成功则返回地址，失败返回NULL
 TeleBook *Query(TeleBook *head, char *num)
 {
-	TeleBook *data=head;
-	while(data != NULL)
-	{
-		if(strcmp(data->num,num)==0)
-			return data;
-		data=data->next;
-	}
-	return(NULL);
+    TeleBook *data = head;
+    while (data != NULL)
+    {
+        if (strcmp(data->num, num) == 0)
+            return data;
+        data = data->next;
+    }
+    return (NULL);
 }
 //输入待查找编号，用Query查找，输出成功与否及结点信息
 void Query_a_record(TeleBook *head)
 {
     char num[NUM_SIZE];
     TeleBook *data;
-	printf("Please input the number you want to search:");
-	gets(num);
-	Num_modi(num);
-	Check(num,NUM_SIZE);
-    data=Query(head,num);
-    if(data != NULL)
+    printf("Please input the number you want to search:");
+    gets(num);
+    Num_modi(num);
+    Check(num, NUM_SIZE);
+    data = Query(head, num);
+    if (data != NULL)
         printf("Operation Success\n");
-        printf("%s %s %s %s",data->num,data->name,data->phonenum,data->email);
+    printf("%s %s %s %s", data->num, data->name, data->phonenum, data->email);
 }
 
 //从文件中整批输入信息
 //从文件filename添加一批记录到链表中，用Insert()有序插入
-TeleBook *AddfromText(TeleBook *head, char *filename);
+TeleBook *AddfromText(TeleBook *head, char *filename)//未检验
+{
+    //循环指针
+    TeleBook *data;
+    FILE *in;
+    //如果导入失败，打印导入错误，返回空指针
+    if ((in = fopen(filename, "r")) == NULL)
+    {
+        printf("data import error!\n");
+        return NULL;
+    }
+    //如果文件指针一开始就指向文件末尾，即文件无内容
+    if (in == EOF)
+    {
+        printf("File has no content.\n");
+        return head;
+    }
+    data = (TeleBook *)malloc(LEN);
+    //如果文件指针不指向文件末尾，读入一条数据并插入链表
+    while (in != EOF)
+    {
+        fread(data,LEN,1,in);
+        Insert(head,data);
+    }
+}
 
 //将链表结点记录写入到文件中
 //将链表中锋结点记录全部写入文件records.txt
@@ -221,13 +245,13 @@ void WritetoText(TeleBook *head, char *filename);
 TeleBook *Reverse(TeleBook *head)
 {
     //分别存放前一个数据地址和后一个数据地址
-    TeleBook*fp1=NULL,*fp2;  
-    while(head!=NULL)
+    TeleBook *fp1 = NULL, *fp2;
+    while (head != NULL)
     {
-        fp2=head->next;
-        head->next=fp1;
-        fp1=head;
-        head=fp2;
+        fp2 = head->next;
+        head->next = fp1;
+        fp1 = head;
+        head = fp2;
     }
     return fp1;
 }
