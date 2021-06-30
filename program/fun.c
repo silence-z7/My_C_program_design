@@ -19,6 +19,8 @@ int main()
     TeleBook *list;
     list = Create();
     Display(list);
+    //list = Reverse(list);
+    //Display(list);
     Free_all(list);
 
     //调试Num_modi()函数
@@ -71,17 +73,72 @@ TeleBook *Create()
 void Display(TeleBook *head)
 {
     int i;
-    while (head != NULL)
+    int page = 1;
+    char choice, choice2;
+    //此页首个数据
+    TeleBook *page_head;
+    TeleBook *data = head;
+    while (data != NULL)
     {
-        for (i = 0; i < 10 && head != NULL; i++)
+        page_head = data;
+        for (i = 0; i < 10 && data != NULL; i++)
         {
-            printf("%-4s", head->num);
-            printf("%-15s", head->name);
-            printf("%s     ", head->phonenum);
-            printf("%s\n", head->email);
-            head = head->next;
+            printf("%-4s", data->num);
+            printf("%-15s", data->name);
+            printf("%s     ", data->phonenum);
+            printf("%s\n", data->email);
+            data = data->next;
         }
-        system("pause");
+        printf("\npage%d\n", page);
+        if (data == NULL)
+        {
+            system("pause");
+            break;
+        }
+        printf("\npage up:1               page down:2\n");
+        printf("Please enter:");
+        while (1)
+        {
+            //吸收前面的换行符
+            getchar();
+            scanf("%c", &choice);
+            if (choice == '1')
+            {
+                //如果page=1表明这是第一页，无法往上翻
+                if (page == 1)
+                    printf("Error! This is the first page. Please retype:\n");
+                //通过反序链表让page_head向前回溯20个
+                else
+                {
+                    head = Reverse(head);
+                    for (i = 0; i < 10; i++)
+                        page_head = page_head->next;
+                    data = page_head;
+                    //再把链表顺序调整回来，显示十个数据
+                    head = Reverse(head);
+                    break;
+                }
+            }
+            else if (choice == '2')
+            {
+                if (data == NULL)
+                {
+                    printf("This is the last page. Enter 1 to end the display or enter other to continue.\n");
+                    printf("Please enter:");
+                    getchar();
+                    scanf("%c", &choice2);
+                    if (choice2 == '1')
+                        break;
+                    else
+                        continue;
+                }
+                else
+                    break;
+            }
+            else
+                printf("enter error! Please enter 1 or 2 to give your choice:");
+        }
+        //system("pause");
         system("cls");
     }
 }
