@@ -376,18 +376,18 @@ void Query_a_record(TeleBook *head)
 {
     char num[NUM_SIZE];
     TeleBook *data;
-    printf("Please input the number you want to search:");
+    printf("\tPlease input the number you want to search:");
     gets(num);
     Num_modi(num);
     Check(num, NUM_SIZE);
     data = Query(head, num);
     if (data != NULL)
     {
-        printf("Operation Success\n");
-        printf("%s %s %s %s", data->num, data->name, data->phonenum, data->email);
+        printf("\tOperation Success\n");
+        printf("%-4s%-15s%-20s%s\n", data->num, data->name, data->phonenum, data->email);
     }
     else
-        printf("Input error!\n");
+        printf("\tCannot find this number!\n");
 }
 
 //从文件中整批输入信息
@@ -415,7 +415,10 @@ TeleBook *AddfromText(TeleBook *head, char *filename)
         if (!feof(in))
             data = (TeleBook *)malloc(LEN);
     }
-    printf("%d data import succeed!\n", num);
+    if (num == 0)
+        printf("File has no contant.\n");
+    else
+        printf("%d data import succeed!\n", num);
     return head;
 }
 
@@ -489,6 +492,21 @@ void WritetoText(TeleBook *head, char *filename)
     printf(" Write Succeed!\n");
 }
 
+//链表反序存放
+TeleBook *Reverse(TeleBook *head)
+{
+    //分别存放前一个数据地址和后一个数据地址
+    TeleBook *fp1 = NULL, *fp2;
+    while (head != NULL)
+    {
+        fp2 = head->next;
+        head->next = fp1;
+        fp1 = head;
+        head = fp2;
+    }
+    return fp1;
+}
+
 //删除雷同记录
 //删除链表中姓名，电话，电子邮件地址均相同的记录
 TeleBook *DeleteSame(TeleBook *head)
@@ -541,19 +559,19 @@ void Display_Main_Menu()
     printf("---------------------------------------------\n");
     printf("|                   Menu                    |\n");
     printf("|-------------------------------------------|\n");
-    printf("|     1.Input Record                        |\n");
-    printf("|     2 Display All Records                 |\n");
-    printf("|     3 Insert a Record                     |\n");
-    printf("|     4 Delete a Record                     |\n");
-    printf("|     5 Sort                                |\n");
-    printf("|     6 Query                               |\n");
-    printf("|     7 Add Records from a Text File        |\n");
-    printf("|     8 Write to a Text File                |\n");
-    printf("|     9 Reverse List                        |\n");
-    printf("|     10 Delete the Same Records            |\n");
-    printf("|     0 Quit                                |\n");
+    printf("|       1.Input Record                      |\n");
+    printf("|       2 Display All Records               |\n");
+    printf("|       3 Insert a Record                   |\n");
+    printf("|       4 Delete a Record                   |\n");
+    printf("|       5 Sort                              |\n");
+    printf("|       6 Query                             |\n");
+    printf("|       7 Add Records from a Text File      |\n");
+    printf("|       8 Write to a Text File              |\n");
+    printf("|       9 Reverse List                      |\n");
+    printf("|       10 Delete the Same Records          |\n");
+    printf("|       0 Quit                              |\n");
     printf("---------------------------------------------\n");
-    printf("      Please enter your choice(0-10):");
+    printf("        Please enter your choice(0-10):");
 }
 
 //释放链表动态内存
@@ -618,18 +636,18 @@ void Num_modi(char *num)
 
 //修改数据函数//
 //修改链表中的某数据//
-TeleBook *Alter_list(TeleBook *head)
+TeleBook *Alter_list(TeleBook *head) //待修改！！！
 {
     char s[20];
     TeleBook *data = head;
-    //找到想要修改的结构体//
-    printf("Please input the name you want to alter:");
-    gets(s);
     if (head == NULL)
     {
-        printf("error!");
+        printf("\tThere is no data.\n");
         return head;
     }
+    //找到想要修改的结构体//
+    printf("Please input the name of the data you want to alter:");
+    gets(s);
     while (strcmp(s, data->name) != 0)
     {
         data = data->next;
@@ -655,6 +673,8 @@ TeleBook *Alter_list(TeleBook *head)
         int n;
         printf("Alter(1.Name 2.Number 3.Phonenumber 4.E-mail 5 Quit):");
         scanf("%d", &n);
+        while (n == '\n')
+            scanf("%d", &n);
         switch (n)
         {
         case 1:
