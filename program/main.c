@@ -12,15 +12,20 @@ int main()
     char infile[20];
     while (1)
     {
+        //显示主菜单
         Display_Main_Menu();
+        //输入作为选择的字符串
         scanf("%s", choice_ch);
+        //如果字符串长度超过规定，提示错误
         if (Check(choice_ch, CHOICE_SIZE) == 0)
         {
             printf("\tenter error! Please retype your choice1.\n");
             system("pause");
             continue;
         }
+        //未超出则将其转为对应数字，不可转则返回-1
         choice = Str_to_num(choice_ch);
+        //如果不可转，也提示错误
         if (choice == -1)
         {
             printf("\tenter error! Please retype your choice.\n");
@@ -29,6 +34,7 @@ int main()
         }
         //清屏
         system("cls");
+        //开始匹配你的选择
         switch (choice)
         {
         case 1: //有序创建数据
@@ -41,29 +47,36 @@ int main()
                 while (1)
                 {
                     scanf("%c", &choice1);
+                    //这种循环都是为了清除缓冲区的换行符，避免读取字符读到换行符，之后出现不予赘述
                     while (choice1 == '\n')
                         scanf("%c", &choice1);
+                    //如果输1.则先将链表写入一个文件，再创建链表
                     if (choice1 == '1')
                     {
                         printf("\tPlease input the name of the outfile:");
                         scanf("%s", outfile);
                         WritetoText(list, outfile);
                     }
+                    //如果是2，直接创建链表并覆盖原数据
                     else if (choice1 == '2')
                         ;
+                    //输2表示取消
                     else if (choice1 == '3')
                         break;
+                    //其他内容的输入则提示输入错误
                     else
                     {
                         printf("\tEnter error. Please enter 1 or 2\n");
                         printf("\tPlease enter:");
                         continue;
                     }
+                    //释放原链表全部内存并创建新链表
                     Free_all(list);
                     list = NULL;
                     break;
                 }
             }
+            //如果选的是3 取消，则不执行这一语块
             if (choice1 != '3')
             {
                 printf("\tInput Records \n");
@@ -72,7 +85,7 @@ int main()
             system("pause");
             break;
         case 2: //分页显示数据
-            //如果链表中没有数据
+            //如果链表中没有数据，提示无数据
             if (list == NULL)
                 printf("\tThere is no data.\n");
             else
@@ -92,7 +105,7 @@ int main()
         case 5: //排序
             printf("\tSort:\n");
             list = Sort_by_num(list);
-            if(list!=NULL)
+            if (list != NULL)
                 printf("\tSort succeed.\n");
             system("pause");
             break;
@@ -108,23 +121,28 @@ int main()
             {
                 printf("\tData in the linked list is not stored. Do you want to stored them or abandon them?\n");
                 printf("\t1.store them.");
-                printf("\t2.abandon them.\n");
-                printf("\tenter 1 or 2 to give your choice:");
+                printf("\t2.abandon them.");
+                printf("\t3.quit\n");
+                printf("\tPlease enter:");
                 while (1)
                 {
                     scanf("%c", &choice7);
                     while (choice7 == '\n')
                         scanf("%c", &choice7);
+                    //如果输1，将链表中数据先储存在一个文件中
                     if (choice7 == '1')
                     {
-                        //此处补充储存数据代码
                         printf("\tPlease input the name of the outfile:");
                         scanf("%s", outfile);
                         WritetoText(list, outfile);
                         break;
                     }
-                    if (choice7 == '2')
+                    //输2直接读取文件
+                    else if (choice7 == '2')
                         ;
+                    //取消
+                    else if (choice7 == '3')
+                        break;
                     else
                     {
                         printf("\tEnter error! Please give your choice in 1 or 2.\n");
