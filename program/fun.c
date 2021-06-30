@@ -43,6 +43,7 @@ TeleBook *Create()
         scanf("%s %s %s %s", p->num, p->name, p->phonenum, p->email);
         printf("%s %s %s %s", p->num, p->name, p->phonenum, p->email);
         head = Insert(head, p);
+        free(p);
         printf("%s %s %s %s", head->num, head->name, head->phonenum, head->email);
         //吞掉缓冲区的换行符
         getchar();
@@ -52,12 +53,12 @@ TeleBook *Create()
             scanf("%c", &ch);
             if (ch == '1')
             {
-                p->next = malloc(LEN);
+                p = malloc(LEN);
                 break;
             }
             else if (ch == '0')
             {
-                p->next = NULL;
+                p = NULL;
                 return head;
             }
             else
@@ -102,7 +103,8 @@ TeleBook *Insert(TeleBook *head, TeleBook *s) //未检验正确性
     if (head == NULL)
     {
         s->next = NULL;
-        return s;
+        head = s;
+        return head;
     }
     //如果新插入的数据编号顺序在链表头的前面
     if (strcmp(s->num, head->num) < 0)
