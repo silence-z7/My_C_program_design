@@ -49,7 +49,33 @@ TeleBook *Create()
     while (ch != '0')
     {
         printf("Please input a data(number name phonenumber email):");
-        scanf("%s %s %s %s", p->num, p->name, p->phonenum, p->email);
+        while (1)
+        {
+            scanf("%s %s %s %s", p->num, p->name, p->phonenum, p->email);
+            //进行输入数据检查，是否导致字符数组溢出，如果出现问题则重新输入该条数据
+            if (Check(p->num, NUM_SIZE) == 0)
+            {
+                printf("Number enter error! Please retype the whole data and limit the number in %d size.\n", NUM_SIZE);
+                continue;
+            }
+            if (Check(p->name, NAME_SIZE) == 0)
+            {
+                printf("Name enter error! Please retype the whole data and limit the name in %d size.\n", NAME_SIZE);
+                continue;
+            }
+            if (Check(p->phonenum, PHONENUM_SIZE) == 0)
+            {
+                printf("Phonenumber enter error! Please retype the whole data and limit the phonenumber in %d size.\n", PHONENUM_SIZE);
+                continue;
+            }
+            if (Check(p->email, EMAIL_SIZE) == 0)
+            {
+                printf("Email enter error! Please retype the whole data and limit the email in %d size.\n", EMAIL_SIZE);
+                continue;
+            }
+            //如果上述情况都没出现，则成功输入，退出循环
+            break;
+        }
         head = Insert(head, p);
         printf("Add more data? Enter 1 or enter 0 to end:");
         while (1)
@@ -201,7 +227,7 @@ TeleBook *Insert(TeleBook *head, TeleBook *s) //未检验正确性
 //调用Insert函数按“编号”做有序插入，输出插入成功信息，返回链表头指针。
 TeleBook *Insert_a_record(TeleBook *head) //未检验正确性，未考虑出现相同编号的情况
 {
-    TeleBook *p;
+    TeleBook *p = (TeleBook *)malloc(LEN);
     printf("Please input a data(number name phonenumber email):");
     while (1)
     {
@@ -214,17 +240,17 @@ TeleBook *Insert_a_record(TeleBook *head) //未检验正确性，未考虑出现
         }
         if (Check(p->name, NAME_SIZE) == 0)
         {
-            printf("Number enter error! Please retype the whole data and limit the name in %d size.\n", NAME_SIZE);
+            printf("Name enter error! Please retype the whole data and limit the name in %d size.\n", NAME_SIZE);
             continue;
         }
         if (Check(p->phonenum, PHONENUM_SIZE) == 0)
         {
-            printf("Number enter error! Please retype the whole data and limit the phonenumber in %d size.\n", PHONENUM_SIZE);
+            printf("Phonenumber enter error! Please retype the whole data and limit the phonenumber in %d size.\n", PHONENUM_SIZE);
             continue;
         }
         if (Check(p->email, EMAIL_SIZE) == 0)
         {
-            printf("Number enter error! Please retype the whole data and limit the email in %d size.\n", EMAIL_SIZE);
+            printf("Email enter error! Please retype the whole data and limit the email in %d size.\n", EMAIL_SIZE);
             continue;
         }
         //如果上述情况都没出现，则成功输入，退出循环
@@ -360,7 +386,7 @@ void Query_a_record(TeleBook *head)
 TeleBook *AddfromText(TeleBook *head, char *filename)
 {
     //记录条数变量
-    char num[4];
+    int num;
     //循环指针
     TeleBook *data;
     FILE *in;
@@ -370,19 +396,12 @@ TeleBook *AddfromText(TeleBook *head, char *filename)
         printf("file open error!\n");
         return NULL;
     }
-    //如果文件指针一开始就指向文件末尾，即文件无内容
-    if (feof(in))
-    {
-        printf("File has no content.\n");
-        return head;
-    }
     data = (TeleBook *)malloc(LEN);
-    fscanf(in, "%s", num);
-    fseek(in, 1, 1);
+    fscanf(in, "%d", &num);
     //如果文件指针不指向文件末尾，读入一条数据并插入链表
     while (!feof(in))
     {
-        fscanf(in, "%s %s %s %s", data->num, data->name, data->phonenum, data->email);
+        fscanf(in, "%s %s %s %s\n", data->num, data->name, data->phonenum, data->email);
         head = Insert(head, data);
         if (!feof(in))
             data = (TeleBook *)malloc(LEN);
