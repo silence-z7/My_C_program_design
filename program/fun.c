@@ -108,9 +108,8 @@ TeleBook *Insert(TeleBook *head, TeleBook *s) //未检验正确性
     //如果新插入的数据编号顺序在链表头的前面
     if (strcmp(s->num, head->num) < 0)
     {
-        fp = head->next;
+        s->next = head;
         head = s;
-        s->next = fp;
         return head;
     }
     data = head;
