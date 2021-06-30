@@ -13,16 +13,24 @@ int main()
     Display_Main_Menu();
     */
 
-    //待调试
     //调试Create()函数，Display()函数
-
+    /*
     TeleBook *list;
     list = Create();
     Display(list);
+    Free_all(list);
+    */
+
     //list = Reverse(list);
     //Display(list);
-    Free_all(list);
 
+    //调试从文件导入数据函数
+    TeleBook *list = NULL;
+    list=Create(list);
+    WritetoText(list,"telephone_data.txt");
+    list = AddfromText(list, "telephone_data.txt");
+    Display(list);
+    Free_all(list);
     //调试Num_modi()函数
     /*
     char num[4]="1";
@@ -85,16 +93,11 @@ void Display(TeleBook *head)
         {
             printf("%-4s", data->num);
             printf("%-15s", data->name);
-            printf("%s     ", data->phonenum);
+            printf("%-20s", data->phonenum);
             printf("%s\n", data->email);
             data = data->next;
         }
         printf("\npage%d\n", page);
-        if (data == NULL)
-        {
-            system("pause");
-            break;
-        }
         printf("\npage up:1               page down:2\n");
         printf("Please enter:");
         while (1)
@@ -110,6 +113,7 @@ void Display(TeleBook *head)
                 //通过反序链表让page_head向前回溯20个
                 else
                 {
+                    page--;
                     head = Reverse(head);
                     for (i = 0; i < 10; i++)
                         page_head = page_head->next;
@@ -123,17 +127,20 @@ void Display(TeleBook *head)
             {
                 if (data == NULL)
                 {
-                    printf("This is the last page. Enter 1 to end the display or enter other to continue.\n");
+                    printf("This is the last page. Enter 0 to end the display or enter other to continue.\n");
                     printf("Please enter:");
                     getchar();
                     scanf("%c", &choice2);
-                    if (choice2 == '1')
+                    if (choice2 == '0')
                         break;
                     else
                         continue;
                 }
                 else
+                {
+                    page++;
                     break;
+                }
             }
             else
                 printf("enter error! Please enter 1 or 2 to give your choice:");
@@ -354,7 +361,7 @@ TeleBook *AddfromText(TeleBook *head, char *filename) //未检验
     TeleBook *data;
     FILE *in;
     //如果导入失败，打印导入错误，返回空指针
-    if ((in = fopen(filename, "r")) == NULL)
+    if ((in = fopen(filename, "rb")) == NULL)
     {
         printf("data import error!\n");
         return NULL;
@@ -370,8 +377,11 @@ TeleBook *AddfromText(TeleBook *head, char *filename) //未检验
     while (!feof(in))
     {
         fread(data, LEN, 1, in);
-        Insert(head, data);
+        head = Insert(head, data);
+        if (!feof(in))
+            data = (TeleBook *)malloc(LEN);
     }
+    return head;
 }
 
 //将链表结点记录写入到文件中
