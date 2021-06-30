@@ -117,7 +117,7 @@ TeleBook *Insert(TeleBook *head, TeleBook *s) //未检验正确性
     data = head;
     while (data != NULL && data->next != NULL)
     {
-        if (strcmp(data->num, s->num) < 0 && strcmp(s->num, data->next->num) > 0)
+        if (strcmp(data->num, s->num) < 0 && strcmp(s->num, data->next->num) < 0)
         {
             fp = data->next;
             data->next = s;
