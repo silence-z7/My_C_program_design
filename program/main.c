@@ -27,6 +27,8 @@ int main()
             system("pause");
             continue;
         }
+        //清屏
+        system("cls");
         switch (choice)
         {
         case 1: //有序创建数据
@@ -34,7 +36,7 @@ int main()
             if (list != NULL)
             {
                 printf("\tList already exist.\n\tDo you want to store it first or abandon the data.\n");
-                printf("\t1.store\t2.abandon\n");
+                printf("\t1.store\t2.abandon\t3.quit\n");
                 printf("\tPlease enter:");
                 while (1)
                 {
@@ -49,6 +51,8 @@ int main()
                     }
                     else if (choice1 == '2')
                         ;
+                    else if (choice1 == '3')
+                        break;
                     else
                     {
                         printf("\tEnter error. Please enter 1 or 2\n");
@@ -60,8 +64,11 @@ int main()
                     break;
                 }
             }
-            printf("\tInput Records \n");
-            list = Create();
+            if (choice1 != '3')
+            {
+                printf("\tInput Records \n");
+                list = Create();
+            }
             system("pause");
             break;
         case 2: //分页显示数据
@@ -85,6 +92,8 @@ int main()
         case 5: //排序
             printf("\tSort:\n");
             list = Sort_by_num(list);
+            if(list!=NULL)
+                printf("\tSort succeed.\n");
             system("pause");
             break;
         case 6: //查找数据
@@ -158,7 +167,7 @@ int main()
             system("pause");
             break;
         case 11: //修改一条数据
-            printf("\tAlter existing records");
+            printf("\tAlter existing records\n");
             list = Alter_list(list);
             system("pause");
             break;

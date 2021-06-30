@@ -6,39 +6,6 @@
 
 #include "fun.h"
 
-int main()
-{
-    //调试Display_Main_Menu()函数
-
-    Display_Main_Menu();
-
-    //调试Create()函数，Display()函数
-    /*
-    TeleBook *list;
-    list = Create();
-    Display(list);
-    Free_all(list);
-    */
-
-    //list = Reverse(list);
-    //Display(list);
-
-    //调试从文件导入数据函数
-    TeleBook *list = NULL;
-    //list = Create(list);
-    //WritetoText(list, "telephone_data.txt");
-    list = AddfromText(list, "telephone.txt");
-    Display(list);
-    Free_all(list);
-    //调试Num_modi()函数
-    /*
-    char num[4]="1";
-    Num_modi(num);
-    printf("%s",num);
-    */
-    return 0;
-}
-
 //建立有序链表
 //从键盘输入若干条记录，调用Insert函数建立以“编号”为序的单向链表
 TeleBook *Create()
