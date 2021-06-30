@@ -87,6 +87,7 @@ void Display(TeleBook *head)
     TeleBook *data = head;
     while (data != NULL)
     {
+        system("cls");
         page_head = data;
         for (i = 0; i < 10 && data != NULL; i++)
         {
@@ -134,7 +135,10 @@ void Display(TeleBook *head)
                     if (choice2 == '0')
                         break;
                     else
+                    {
+                        printf("Please input 1 to page up or 2 to page down:");
                         continue;
+                    }
                 }
                 else
                 {
@@ -145,8 +149,6 @@ void Display(TeleBook *head)
             else
                 printf("enter error! Please enter 1 or 2 to give your choice:");
         }
-        //system("pause");
-        system("cls");
     }
 }
 
@@ -358,12 +360,12 @@ void Query_a_record(TeleBook *head)
 TeleBook *AddfromText(TeleBook *head, char *filename)
 {
     //记录条数变量
-    int num;
+    char num[4];
     //循环指针
     TeleBook *data;
     FILE *in;
     //如果文件打开失败，打印打开错误，返回空指针
-    if ((in = fopen(filename, "rb")) == NULL)
+    if ((in = fopen(filename, "r")) == NULL)
     {
         printf("file open error!\n");
         return NULL;
@@ -375,7 +377,8 @@ TeleBook *AddfromText(TeleBook *head, char *filename)
         return head;
     }
     data = (TeleBook *)malloc(LEN);
-    fscanf(in, "%d", &num);
+    fscanf(in, "%s", num);
+    fseek(in, 1, 1);
     //如果文件指针不指向文件末尾，读入一条数据并插入链表
     while (!feof(in))
     {
@@ -394,15 +397,33 @@ void WritetoText(TeleBook *head, char *filename)
 {
     FILE *fp;
     TeleBook *data;
+    int num;
     //打开文件//
-    if ((fp = fopen(filename, "ab")) == NULL)
+    if ((fp = fopen(filename, "a")) == NULL)
     {
         printf("open error!\n");
         exit(0);
     }
-    //将结点信息依次写入文件//
-    for (data = head; data != NULL; data = data->next)
-        fprintf(fp, "%s  %s  %s  %s\n", data->num, data->name, data->phonenum, data->email);
+    //如果文件中有内容，即文件原先就存在，则将结点信息依次追加写入文件，并返回标头修改计数
+    rewind(fp);
+    if (!feof(fp))
+    {
+        fscanf(fp, "%d\n", &num);
+        fseek(fp, 0L, SEEK_END);
+        for (data = head; data != NULL; data = data->next, num++)
+            fprintf(fp, "%s  %s  %s  %s\n", data->num, data->name, data->phonenum, data->email);
+        rewind(fp);
+        fprintf("%d", num);
+    }
+    else
+    {
+        num = 0;
+        fprintf("%d\n", num);
+        for (data = head; data != NULL; data = data->next, num++)
+            fprintf(fp, "%s  %s  %s  %s\n", data->num, data->name, data->phonenum, data->email);
+        rewind(fp);
+        fprintf("%d", num);
+    }
     fclose(fp);
     printf(" Write Succeed!\n");
 }
