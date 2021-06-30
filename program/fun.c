@@ -9,9 +9,8 @@
 int main()
 {
     //调试Display_Main_Menu()函数
-    /*
+
     Display_Main_Menu();
-    */
 
     //调试Create()函数，Display()函数
     /*
@@ -26,9 +25,9 @@ int main()
 
     //调试从文件导入数据函数
     TeleBook *list = NULL;
-    list=Create(list);
-    WritetoText(list,"telephone_data.txt");
-    list = AddfromText(list, "telephone_data.txt");
+    //list = Create(list);
+    //WritetoText(list, "telephone_data.txt");
+    list = AddfromText(list, "telephone.txt");
     Display(list);
     Free_all(list);
     //调试Num_modi()函数
@@ -52,12 +51,12 @@ TeleBook *Create()
         printf("Please input a data(number name phonenumber email):");
         scanf("%s %s %s %s", p->num, p->name, p->phonenum, p->email);
         head = Insert(head, p);
-        //吞掉缓冲区的换行符
-        getchar();
         printf("Add more data? Enter 1 or enter 0 to end:");
         while (1)
         {
             scanf("%c", &ch);
+            while (ch == '\n')
+                scanf("%c", &ch);
             if (ch == '1')
             {
                 p = malloc(LEN);
@@ -102,9 +101,9 @@ void Display(TeleBook *head)
         printf("Please enter:");
         while (1)
         {
-            //吸收前面的换行符
-            getchar();
             scanf("%c", &choice);
+            while (choice == '\n')
+                scanf("%c", &choice);
             if (choice == '1')
             {
                 //如果page=1表明这是第一页，无法往上翻
@@ -129,8 +128,9 @@ void Display(TeleBook *head)
                 {
                     printf("This is the last page. Enter 0 to end the display or enter other to continue.\n");
                     printf("Please enter:");
-                    getchar();
                     scanf("%c", &choice2);
+                    while (choice2 == '\n')
+                        scanf("%c", &choice2);
                     if (choice2 == '0')
                         break;
                     else
@@ -355,8 +355,10 @@ void Query_a_record(TeleBook *head)
 
 //从文件中整批输入信息
 //从文件filename添加一批记录到链表中，用Insert()有序插入
-TeleBook *AddfromText(TeleBook *head, char *filename) //未检验
+TeleBook *AddfromText(TeleBook *head, char *filename)
 {
+    //记录条数变量
+    int num;
     //循环指针
     TeleBook *data;
     FILE *in;
@@ -373,28 +375,27 @@ TeleBook *AddfromText(TeleBook *head, char *filename) //未检验
         return head;
     }
     data = (TeleBook *)malloc(LEN);
+    fscanf(in, "%d", &num);
     //如果文件指针不指向文件末尾，读入一条数据并插入链表
     while (!feof(in))
     {
-        fread(data, LEN, 1, in);
+        fscanf(in, "%s %s %s %s", data->num, data->name, data->phonenum, data->email);
         head = Insert(head, data);
         if (!feof(in))
             data = (TeleBook *)malloc(LEN);
     }
+    printf("%d data import succeed!\n", num);
     return head;
 }
 
 //将链表结点记录写入到文件中
 //将链表中的结点记录全部写入文件records.txt
-void WritetoText(TeleBook *head, char *file)
+void WritetoText(TeleBook *head, char *filename)
 {
-    char outfile[20];
     FILE *fp;
     TeleBook *data;
-    //输入文件名并打开文件//
-    printf("Input the name of outfile:\n");
-    scanf("%s", outfile);
-    if ((fp = fopen(outfile, "w")) == NULL)
+    //打开文件//
+    if ((fp = fopen(filename, "ab")) == NULL)
     {
         printf("open error!\n");
         exit(0);
