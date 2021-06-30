@@ -124,6 +124,7 @@ TeleBook *Insert(TeleBook *head, TeleBook *s) //未检验正确性
             s->next = fp;
             return head;
         }
+        data = data->next;
     }
     //如果新插入数据编号顺序在链表末尾的后面
     if (data->next == NULL)
