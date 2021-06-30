@@ -139,7 +139,7 @@ void Display(TeleBook *head)
             {
                 //如果page=1表明这是第一页，无法往上翻
                 if (page == 1)
-                    printf("\tError! This is the first page. Please retype:\n");
+                    printf("\tError! This is the first page. Please retype:");
                 //通过反序链表让page_head向前回溯20个
                 else
                 {
