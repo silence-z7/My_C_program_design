@@ -7,7 +7,7 @@ int main()
     char choice_ch[CHOICE_SIZE];
     int choice;
     char choice7;
-
+    char outfile[20];
     while (1)
     {
         Display_Main_Menu();
@@ -26,21 +26,32 @@ int main()
         switch (choice)
         {
         case 1:
+            printf ("\t Input Records \n");
+            Create();
             system("pause");
             break;
         case 2:
+            Display(list);
             system("pause");
             break;
         case 3:
+            printf("\t Insert a record:\n");
+		    list=Insert_a_record(list);
             system("pause");
             break;
         case 4:
+            printf("\t Delete a record:\n");
+            list=Delete_a_record(list);
             system("pause");
             break;
         case 5:
+            printf("\t Sort:\n");
+            Sort_by_num(list);
             system("pause");
             break;
         case 6:
+            printf("\t Query:\n");
+		    Query_a_record(list);
             system("pause");
             break;
         //从文件中导入数据到链表
@@ -71,15 +82,28 @@ int main()
             system("pause");
             break;
         case 8:
+            printf("\t Write to a text file \n");
+            WritetoText(list,outfile);
             system("pause");
             break;
         case 9:
+            printf("\t Reverse List\n");
+		    list=Reverse(list);
             system("pause");
             break;
         case 10:
+            printf("\t Delete the same record:\n");
+		    list=DeleteSame(list);
+            system("pause");
+            break;
+        case 11:
+            printf("Alter existing records");
+            list=Alter_list(list);
             system("pause");
             break;
         case 0:
+            printf("\t Quit\n");
+		    Quit(list);
             system("pause");
             break;
         default:
