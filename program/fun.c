@@ -310,12 +310,20 @@ TeleBook *Sort_by_num(TeleBook *head) //未检验
     TeleBook *fp1, *fp2;
     //data2的前一个结点指针
     TeleBook *pre;
+    int count = 0;
+    if (head == NULL)
+    {
+        printf("There is no data.\n");
+        return head;
+    }
     //如果链表中只有一个结点，直接返回即可
     if (head->next == NULL)
         return head;
-    //冒泡排序
     //data1的循环只用作计数
-    for (data1 = head; data1->next != NULL; data1 = data1->next)
+    for (data1 = head; data1 != NULL; data1 = data1->next)
+        count++;
+    //冒泡排序
+    for (; count > 1; count--)
     {
         //data2用作冒泡
         //由于head指针没有pre,故须单独讨论
@@ -347,6 +355,7 @@ TeleBook *Sort_by_num(TeleBook *head) //未检验
             }
         }
     }
+    return head;
 }
 
 //结点数据查询
@@ -416,50 +425,68 @@ void WritetoText(TeleBook *head, char *filename)
 {
     FILE *fp;
     TeleBook *data;
-    int num;
+    //临时储存文件数据链表
+    TeleBook *data0 = NULL;
+    //中间数据指针
+    TeleBook *p;
+    int num = 0;
     //打开文件//
-    if ((fp = fopen(filename, "a")) == NULL)
+    //如果文件中有内容，即文件原先就存在，则先读取文件中数据记录条数，将文件数据储存在一个临时链表中，之后依次输入两个链表
+    if ((fp = fopen(filename, "r+")) != NULL)
     {
-        printf("open error!\n");
-        exit(0);
-    }
-    //如果文件中有内容，即文件原先就存在，则将结点信息依次追加写入文件，并返回标头修改计数
-    rewind(fp);
-    if (!feof(fp))
-    {
-        fscanf(fp, "%d\n", &num);
-        fseek(fp, 0L, SEEK_END);
-        for (data = head; data != NULL; data = data->next, num++)
-            fprintf(fp, "%s  %s  %s  %s\n", data->num, data->name, data->phonenum, data->email);
+        p = (TeleBook *)malloc(LEN);
+        fscanf(fp, "%d", &num);
+        while (!feof(fp))
+        {
+            fscanf(fp, "%s %s %s %s\n", p->num, p->name, p->phonenum, p->email);
+            data0 = Insert(data0, p);
+            if (!feof(fp))
+                p = (TeleBook *)malloc(LEN);
+        }
+        for (data = head; data != NULL; data = data->next)
+            num++;
+        //返回文件标头
         rewind(fp);
-        fprintf("%d", num);
+        //输入计数
+        fprintf(fp, "%d\n", num);
+        //输入原数据
+        p = data0;
+        while (p != NULL)
+        {
+            fprintf(fp, "%s  %s  %s  %s\n", p->num, p->name, p->phonenum, p->email);
+            p = p->next;
+        }
+        Free_all(data0);
+        //输入新数据
+        data = head;
+        while (data != NULL)
+        {
+            fprintf(fp, "%s  %s  %s  %s\n", data->num, data->name, data->phonenum, data->email);
+            data = data->next;
+        }
     }
     else
     {
-        num = 0;
-        fprintf("%d\n", num);
-        for (data = head; data != NULL; data = data->next, num++)
+        if ((fp = fopen(filename, "w")) == NULL)
+        {
+            printf("\tfile write error.\n");
+            return;
+        }
+        //进行计数
+        for (data = head; data != NULL; data = data->next)
+            num++;
+        //输入计数
+        fprintf(fp, "%d\n", num);
+        //向文件输入数据
+        data = head;
+        while (data != NULL)
+        {
             fprintf(fp, "%s  %s  %s  %s\n", data->num, data->name, data->phonenum, data->email);
-        rewind(fp);
-        fprintf("%d", num);
+            data = data->next;
+        }
     }
     fclose(fp);
     printf(" Write Succeed!\n");
-}
-
-//链表反序存放
-TeleBook *Reverse(TeleBook *head)
-{
-    //分别存放前一个数据地址和后一个数据地址
-    TeleBook *fp1 = NULL, *fp2;
-    while (head != NULL)
-    {
-        fp2 = head->next;
-        head->next = fp1;
-        fp1 = head;
-        head = fp2;
-    }
-    return fp1;
 }
 
 //删除雷同记录
