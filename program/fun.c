@@ -43,7 +43,6 @@ TeleBook *Create()
         scanf("%s %s %s %s", p->num, p->name, p->phonenum, p->email);
         printf("%s %s %s %s", p->num, p->name, p->phonenum, p->email);
         head = Insert(head, p);
-        free(p);
         printf("%s %s %s %s", head->num, head->name, head->phonenum, head->email);
         //吞掉缓冲区的换行符
         getchar();
