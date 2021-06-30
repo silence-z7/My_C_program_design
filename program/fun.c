@@ -360,10 +360,10 @@ TeleBook *AddfromText(TeleBook *head, char *filename) //未检验
     //循环指针
     TeleBook *data;
     FILE *in;
-    //如果导入失败，打印导入错误，返回空指针
+    //如果文件打开失败，打印打开错误，返回空指针
     if ((in = fopen(filename, "rb")) == NULL)
     {
-        printf("data import error!\n");
+        printf("file open error!\n");
         return NULL;
     }
     //如果文件指针一开始就指向文件末尾，即文件无内容
