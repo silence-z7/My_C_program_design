@@ -15,11 +15,11 @@ int main()
 
     //待调试
     //调试Create()函数，Display()函数
-    /*
+
     TeleBook *list;
     list = Create();
     Display(list);
-    */
+    Free_all(list);
 
     //调试Num_modi()函数
     /*
@@ -34,13 +34,16 @@ int main()
 //从键盘输入若干条记录，调用Insert函数建立以“编号”为序的单向链表
 TeleBook *Create()
 {
-    TeleBook *head = (TeleBook *)malloc(LEN);
-    TeleBook *p = head;
+    TeleBook *head = NULL;
+    TeleBook *p = (TeleBook *)malloc(LEN);
     char ch = '1';
     while (ch != '0')
     {
         printf("Please input a data(number name phonenumber email):");
         scanf("%s %s %s %s", p->num, p->name, p->phonenum, p->email);
+        printf("%s %s %s %s", p->num, p->name, p->phonenum, p->email);
+        head = Insert(head, p);
+        printf("%s %s %s %s", head->num, head->name, head->phonenum, head->email);
         //吞掉缓冲区的换行符
         getchar();
         printf("Add more data? Enter 1 or enter 0 to end:");
@@ -97,7 +100,10 @@ TeleBook *Insert(TeleBook *head, TeleBook *s) //未检验正确性
     Num_modi(s->num);
     //如果链表中没有数据
     if (head == NULL)
+    {
+        s->next = NULL;
         return s;
+    }
     //如果新插入的数据编号顺序在链表头的前面
     if (strcmp(s->num, head->num) < 0)
     {
@@ -298,14 +304,14 @@ TeleBook *AddfromText(TeleBook *head, char *filename) //未检验
         return NULL;
     }
     //如果文件指针一开始就指向文件末尾，即文件无内容
-    if (in == EOF)
+    if (feof(in))
     {
         printf("File has no content.\n");
         return head;
     }
     data = (TeleBook *)malloc(LEN);
     //如果文件指针不指向文件末尾，读入一条数据并插入链表
-    while (in != EOF)
+    while (!feof(in))
     {
         fread(data, LEN, 1, in);
         Insert(head, data);
@@ -454,6 +460,7 @@ int Str_to_num(char *str)
         if (*str < '0' || *str > '9')
             return -1;
         sum = sum * 10 + *str - '0';
+        str++;
     }
     return sum;
 }
