@@ -128,7 +128,7 @@ void Display(TeleBook *head)
             data = data->next;
         }
         printf("\n\tpage%d\n", page);
-        printf("\n\tpage up:1               page down:2\n");
+        printf("\n\tpage up:1               page down:2               end:0\n");
         printf("\tPlease enter:");
         while (1)
         {
@@ -156,25 +156,17 @@ void Display(TeleBook *head)
             else if (choice == '2')
             {
                 if (data == NULL)
-                {
-                    printf("\tThis is the last page. Enter 0 to end the display or enter other to continue.\n");
-                    printf("\tPlease enter:");
-                    scanf("%c", &choice2);
-                    while (choice2 == '\n')
-                        scanf("%c", &choice2);
-                    if (choice2 == '0')
-                        break;
-                    else
-                    {
-                        printf("\tPlease input 1 to page up or 2 to page down:");
-                        continue;
-                    }
-                }
+                    printf("\tError! This is the last page. Please retype:");
                 else
                 {
                     page++;
                     break;
                 }
+            }
+            else if (choice == '0')
+            {
+                data = NULL;
+                break;
             }
             else
                 printf("\tEnter error! Please enter 1 or 2 to give your choice:");
@@ -184,7 +176,7 @@ void Display(TeleBook *head)
 
 //结点的有序插入
 //按编号为序插入记录s，返回链表头指针
-TeleBook *Insert(TeleBook *head, TeleBook *s) //未检验正确性
+TeleBook *Insert(TeleBook *head, TeleBook *s)
 {
     //这个指针用来做中间值
     TeleBook *fp;
@@ -209,7 +201,7 @@ TeleBook *Insert(TeleBook *head, TeleBook *s) //未检验正确性
     data = head;
     while (data != NULL && data->next != NULL)
     {
-        if (strcmp(data->num, s->num) < 0 && strcmp(s->num, data->next->num) < 0)
+        if (strcmp(data->num, s->num) <= 0 && strcmp(s->num, data->next->num) < 0)
         {
             fp = data->next;
             data->next = s;
@@ -538,7 +530,7 @@ TeleBook *DeleteSame(TeleBook *head)
         printf("\tThere is no same data.\n");
         return head;
     }
-    for (data = head; data!=NULL&&data->next != NULL; data = data->next)
+    for (data = head; data != NULL && data->next != NULL; data = data->next)
     {
         p1 = data->next;
         pre = data;
