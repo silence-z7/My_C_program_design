@@ -401,6 +401,7 @@ void Quit(TeleBook *head)
 //显示主菜单
 void Display_Main_Menu()
 {
+    system("cls");
     printf("\n");
     printf("       The telephone Management System       \n");
     printf("---------------------------------------------\n");
