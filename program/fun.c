@@ -41,9 +41,7 @@ TeleBook *Create()
     {
         printf("Please input a data(number name phonenumber email):");
         scanf("%s %s %s %s", p->num, p->name, p->phonenum, p->email);
-        printf("%s %s %s %s", p->num, p->name, p->phonenum, p->email);
         head = Insert(head, p);
-        printf("%s %s %s %s", head->num, head->name, head->phonenum, head->email);
         //吞掉缓冲区的换行符
         getchar();
         printf("Add more data? Enter 1 or enter 0 to end:");
