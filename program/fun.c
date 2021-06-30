@@ -48,36 +48,39 @@ TeleBook *Create()
     char ch = '1';
     while (ch != '0')
     {
-        printf("Please input a data(number name phonenumber email):");
+        printf("\tPlease input a data(number name phonenumber email):");
         while (1)
         {
             scanf("%s %s %s %s", p->num, p->name, p->phonenum, p->email);
             //进行输入数据检查，是否导致字符数组溢出，如果出现问题则重新输入该条数据
             if (Check(p->num, NUM_SIZE) == 0)
             {
-                printf("Number enter error! Please retype the whole data and limit the number in %d size.\n", NUM_SIZE);
+                printf("\tNumber enter error! Please retype the whole data and limit the number in %d size.\n", NUM_SIZE);
                 continue;
             }
             if (Check(p->name, NAME_SIZE) == 0)
             {
-                printf("Name enter error! Please retype the whole data and limit the name in %d size.\n", NAME_SIZE);
+                printf("\tName enter error! Please retype the whole data and limit the name in %d size.\n", NAME_SIZE);
                 continue;
             }
             if (Check(p->phonenum, PHONENUM_SIZE) == 0)
             {
-                printf("Phonenumber enter error! Please retype the whole data and limit the phonenumber in %d size.\n", PHONENUM_SIZE);
+                printf("\tPhonenumber enter error! Please retype the whole data and limit the phonenumber in %d size.\n", PHONENUM_SIZE);
                 continue;
             }
             if (Check(p->email, EMAIL_SIZE) == 0)
             {
-                printf("Email enter error! Please retype the whole data and limit the email in %d size.\n", EMAIL_SIZE);
+                printf("\tEmail enter error! Please retype the whole data and limit the email in %d size.\n", EMAIL_SIZE);
                 continue;
             }
             //如果上述情况都没出现，则成功输入，退出循环
+            //这个循环用于清楚缓冲区多余内容
+            while (getchar() != '\n')
+                ;
             break;
         }
         head = Insert(head, p);
-        printf("Add more data? Enter 1 or enter 0 to end:");
+        printf("\tAdd more data? Enter 1 or enter 0 to end:");
         while (1)
         {
             scanf("%c", &ch);
@@ -94,7 +97,7 @@ TeleBook *Create()
                 return head;
             }
             else
-                printf("enter error! Please input 1 or 0.\n");
+                printf("\tEnter error! Please input 1 or 0.\n");
         }
     }
 
@@ -115,17 +118,18 @@ void Display(TeleBook *head)
     {
         system("cls");
         page_head = data;
+        printf("\t%-8s%-15s%-20s%s\n\n", "number", "name", "phonenumber", "email");
         for (i = 0; i < 10 && data != NULL; i++)
         {
-            printf("%-4s", data->num);
+            printf("\t%-8s", data->num);
             printf("%-15s", data->name);
             printf("%-20s", data->phonenum);
             printf("%s\n", data->email);
             data = data->next;
         }
-        printf("\npage%d\n", page);
-        printf("\npage up:1               page down:2\n");
-        printf("Please enter:");
+        printf("\n\tpage%d\n", page);
+        printf("\n\tpage up:1               page down:2\n");
+        printf("\tPlease enter:");
         while (1)
         {
             scanf("%c", &choice);
@@ -135,7 +139,7 @@ void Display(TeleBook *head)
             {
                 //如果page=1表明这是第一页，无法往上翻
                 if (page == 1)
-                    printf("Error! This is the first page. Please retype:\n");
+                    printf("\tError! This is the first page. Please retype:\n");
                 //通过反序链表让page_head向前回溯20个
                 else
                 {
@@ -153,8 +157,8 @@ void Display(TeleBook *head)
             {
                 if (data == NULL)
                 {
-                    printf("This is the last page. Enter 0 to end the display or enter other to continue.\n");
-                    printf("Please enter:");
+                    printf("\tThis is the last page. Enter 0 to end the display or enter other to continue.\n");
+                    printf("\tPlease enter:");
                     scanf("%c", &choice2);
                     while (choice2 == '\n')
                         scanf("%c", &choice2);
@@ -162,7 +166,7 @@ void Display(TeleBook *head)
                         break;
                     else
                     {
-                        printf("Please input 1 to page up or 2 to page down:");
+                        printf("\tPlease input 1 to page up or 2 to page down:");
                         continue;
                     }
                 }
@@ -173,7 +177,7 @@ void Display(TeleBook *head)
                 }
             }
             else
-                printf("enter error! Please enter 1 or 2 to give your choice:");
+                printf("\tEnter error! Please enter 1 or 2 to give your choice:");
         }
     }
 }
@@ -228,36 +232,36 @@ TeleBook *Insert(TeleBook *head, TeleBook *s) //未检验正确性
 TeleBook *Insert_a_record(TeleBook *head) //未检验正确性，未考虑出现相同编号的情况
 {
     TeleBook *p = (TeleBook *)malloc(LEN);
-    printf("Please input a data(number name phonenumber email):");
+    printf("\tPlease input a data(number name phonenumber email):");
     while (1)
     {
         scanf("%s %s %s %s", p->num, p->name, p->phonenum, p->email);
         //进行输入数据检查，是否导致字符数组溢出，如果出现问题则重新输入该条数据
         if (Check(p->num, NUM_SIZE) == 0)
         {
-            printf("Number enter error! Please retype the whole data and limit the number in %d size.\n", NUM_SIZE);
+            printf("\tNumber enter error! Please retype the whole data and limit the number in %d size.\n", NUM_SIZE);
             continue;
         }
         if (Check(p->name, NAME_SIZE) == 0)
         {
-            printf("Name enter error! Please retype the whole data and limit the name in %d size.\n", NAME_SIZE);
+            printf("\tName enter error! Please retype the whole data and limit the name in %d size.\n", NAME_SIZE);
             continue;
         }
         if (Check(p->phonenum, PHONENUM_SIZE) == 0)
         {
-            printf("Phonenumber enter error! Please retype the whole data and limit the phonenumber in %d size.\n", PHONENUM_SIZE);
+            printf("\tPhonenumber enter error! Please retype the whole data and limit the phonenumber in %d size.\n", PHONENUM_SIZE);
             continue;
         }
         if (Check(p->email, EMAIL_SIZE) == 0)
         {
-            printf("Email enter error! Please retype the whole data and limit the email in %d size.\n", EMAIL_SIZE);
+            printf("\tEmail enter error! Please retype the whole data and limit the email in %d size.\n", EMAIL_SIZE);
             continue;
         }
         //如果上述情况都没出现，则成功输入，退出循环
         break;
     }
-    if (Insert(head, p) != NULL)
-        printf("Insert succeed!\n");
+    if ((head = Insert(head, p)) != NULL)
+        printf("\tInsert succeed!\n");
     return head;
 }
 
@@ -276,24 +280,30 @@ TeleBook *Delete(TeleBook *head, char *num) //未检验
             fp = data;
             data = data->next;
             free(data);
-            printf("Delete Succeed!");
+            printf("\tDelete Succeed!");
             return head;
         }
     }
-    printf("Cannot find the number you input. Delete fail.\n");
+    printf("\tCannot find the number you input. Delete fail.\n");
     return head;
 }
 //输入待删除编号，用Delet删除，输出是否删除成功
 TeleBook *Delete_a_record(TeleBook *head)
 {
     char num[NUM_SIZE];
-    printf("Please input the number of the data you want to delete:");
+    //如果链表中无数据
+    if (head == NULL)
+    {
+        printf("\tThere is no data.\n");
+        return head;
+    }
+    printf("\tPlease input the number of the data you want to delete:");
     while (1)
     {
         scanf("%s", num);
         if (Check(num, NUM_SIZE) == 1)
             break;
-        printf("enter error! Please limit it in %d size.\n", NUM_SIZE);
+        printf("\tEnter error! Please limit it in %d size.\n", NUM_SIZE);
     }
     Num_modi(num);
     head = Delete(head, num);
@@ -313,7 +323,7 @@ TeleBook *Sort_by_num(TeleBook *head) //未检验
     int count = 0;
     if (head == NULL)
     {
-        printf("There is no data.\n");
+        printf("\tThere is no data.\n");
         return head;
     }
     //如果链表中只有一个结点，直接返回即可
@@ -384,7 +394,7 @@ void Query_a_record(TeleBook *head)
     if (data != NULL)
     {
         printf("\tOperation Success\n");
-        printf("%-4s%-15s%-20s%s\n", data->num, data->name, data->phonenum, data->email);
+        printf("\t%-8s%-15s%-20s%s\n", data->num, data->name, data->phonenum, data->email);
     }
     else
         printf("\tCannot find this number!\n");
@@ -402,7 +412,7 @@ TeleBook *AddfromText(TeleBook *head, char *filename)
     //如果文件打开失败，打印打开错误，返回空指针
     if ((in = fopen(filename, "r")) == NULL)
     {
-        printf("file open error!\n");
+        printf("\tFile open error!\n");
         return NULL;
     }
     data = (TeleBook *)malloc(LEN);
@@ -416,9 +426,9 @@ TeleBook *AddfromText(TeleBook *head, char *filename)
             data = (TeleBook *)malloc(LEN);
     }
     if (num == 0)
-        printf("File has no contant.\n");
+        printf("\tFile has no contant.\n");
     else
-        printf("%d data import succeed!\n", num);
+        printf("\t%d data import succeed!\n", num);
     return head;
 }
 
@@ -472,7 +482,7 @@ void WritetoText(TeleBook *head, char *filename)
     {
         if ((fp = fopen(filename, "w")) == NULL)
         {
-            printf("\tfile write error.\n");
+            printf("\tFile write error.\n");
             return;
         }
         //进行计数
@@ -489,7 +499,7 @@ void WritetoText(TeleBook *head, char *filename)
         }
     }
     fclose(fp);
-    printf(" Write Succeed!\n");
+    printf("\tWrite Succeed!\n");
 }
 
 //链表反序存放
@@ -513,40 +523,67 @@ TeleBook *DeleteSame(TeleBook *head)
 {
     TeleBook *data;
     TeleBook *p1, *p2;
+    //用于记录p1的前一个指针
+    TeleBook *pre;
     int i = 0;
-    for (data = head; data != NULL; data = data->next)
-        for (p1 = data, p2 = data->next; p2 != NULL; p1 = p2, p2 = p2->next)
-            if (strcmp(data->name, p2->name) == 0 && strcmp(data->phonenum, p2->phonenum) == 0 && strcmp(data->email, p2->email) == 0)
+    //如果链表中没有数据
+    if (head == NULL)
+    {
+        printf("\tThere is no data.\n");
+        return head;
+    }
+    //如果链表中只有一个数据，则不可能有相同的
+    if (head->next == NULL)
+    {
+        printf("\tThere is no same data.\n");
+        return head;
+    }
+    for (data = head; data!=NULL&&data->next != NULL; data = data->next)
+    {
+        p1 = data->next;
+        pre = data;
+        while (p1 != NULL)
+        {
+            if (strcmp(data->name, p1->name) == 0 && strcmp(data->phonenum, p1->phonenum) == 0 && strcmp(data->email, p1->email) == 0)
             {
                 i++;
-                p1->next = p2->next;
-                free(p2);
+                pre->next = p1->next;
+                free(p1);
+                p1 = pre->next;
             }
+            else
+            {
+                pre = p1;
+                p1 = p1->next;
+            }
+        }
+    }
     if (i > 0)
-        printf("Delete Succeed\n");
+        printf("\t%d Delete Succeed\n", i);
     else
-        printf("No intems in common\n");
-    return (head);
+        printf("\tThere is no same data.\n");
+    return head;
 }
 
 //退出管理系统
 void Quit(TeleBook *head)
 {
     char ch;
-    printf("Are you sure you want to exit?\n");
-    printf("    1.Yes   0.NO\n");
+    printf("\tAre you sure you want to exit?\n");
+    printf("\t1.Yes\t0.NO\n");
     while (1)
     {
-        if ((ch = getchar()) == '1')
+        while ((ch = getchar()) == '\n')
+            ;
+        if (ch == '1')
         {
             Free_all(head);
             exit(0);
         }
         else if (ch == '0')
             break;
-        printf("enter error!\n");
-        printf("    1.Yes   0.NO\n");
-        getchar();
+        printf("\tEnter error!\n");
+        printf("\t1.Yes\t0.NO\n");
     }
 }
 
@@ -569,6 +606,7 @@ void Display_Main_Menu()
     printf("|       8 Write to a Text File              |\n");
     printf("|       9 Reverse List                      |\n");
     printf("|       10 Delete the Same Records          |\n");
+    printf("|       11 Quit                             |\n");
     printf("|       0 Quit                              |\n");
     printf("---------------------------------------------\n");
     printf("        Please enter your choice(0-10):");
@@ -646,32 +684,32 @@ TeleBook *Alter_list(TeleBook *head) //待修改！！！
         return head;
     }
     //找到想要修改的结构体//
-    printf("Please input the name of the data you want to alter:");
+    printf("\tPlease input the name of the data you want to alter:");
     gets(s);
     while (strcmp(s, data->name) != 0)
     {
         data = data->next;
         if (data == NULL)
         {
-            printf("Not Found!\n");
+            printf("\tNot Found!\n");
             return head;
         }
     }
-    printf("Found Succeed\n");
-    printf("Name:");
+    printf("\tFound Succeed\n");
+    printf("\tName:");
     puts(data->name);
-    printf("  Number:");
+    printf("\tNumber:");
     puts(data->num);
-    printf("  Phonenumber:");
+    printf("\tPhonenumber:");
     puts(data->phonenum);
-    printf("  E-mail:");
+    printf("\tE-mail:");
     puts(data->email);
     putchar('\n');
     //选择想要修改的数据//
     while (1)
     {
         int n;
-        printf("Alter(1.Name 2.Number 3.Phonenumber 4.E-mail 5 Quit):");
+        printf("\tAlter(1.Name 2.Number 3.Phonenumber 4.E-mail 5 Quit):");
         scanf("%d", &n);
         while (n == '\n')
             scanf("%d", &n);
@@ -679,25 +717,25 @@ TeleBook *Alter_list(TeleBook *head) //待修改！！！
         {
         case 1:
         {
-            printf("Please input new name:");
+            printf("\tPlease input new name:");
             gets(data->name);
         }
         break;
         case 2:
         {
-            printf("Please input new number:");
+            printf("\tPlease input new number:");
             gets(data->num);
         }
         break;
         case 3:
         {
-            printf("Please input new phonenumber:");
+            printf("\tPlease input new phonenumber:");
             gets(data->phonenum);
         }
         break;
         case 4:
         {
-            printf("Please input new E-mail:");
+            printf("\tPlease input new E-mail:");
             gets(data->email);
         }
         break;
@@ -705,7 +743,7 @@ TeleBook *Alter_list(TeleBook *head) //待修改！！！
             return head;
             break;
         default:
-            printf("Input error!");
+            printf("\tInput error!");
             break;
         }
     }
