@@ -265,14 +265,36 @@ TeleBook *Delete(TeleBook *head, char *num) //未检验
     TeleBook *data = head;
     //中间指针
     TeleBook *fp;
-    while (data != NULL)
+    char choice;
+    if (strcmp(head->num, num) == 0)
     {
-        if (strcmp(data->num, num) == 0)
+        printf("\tAre you sure to delete it?(y/n):");
+        while (1)
         {
-            fp = data;
-            data = data->next;
-            free(data);
-            printf("\tDelete Succeed!");
+            scanf("%c", &choice);
+            while (choice == '\n')
+                scanf("%c", &choice);
+            if (choice == 'y')
+                break;
+            else if (choice == 'n')
+                return head;
+            else
+                printf("\tEnter error. Please enter y or n :");
+        }
+        fp = head;
+        head = head->next;
+        free(fp);
+        printf("\tDelete Succeed!\n");
+        return head;
+    }
+    while (data->next != NULL)
+    {
+        if (strcmp(data->next->num, num) == 0)
+        {
+            fp = data->next;
+            data->next = data->next->next;
+            free(fp);
+            printf("\tDelete Succeed!\n");
             return head;
         }
     }
@@ -377,19 +399,45 @@ TeleBook *Query(TeleBook *head, char *num)
 void Query_a_record(TeleBook *head)
 {
     char num[NUM_SIZE];
+    char choice;
     TeleBook *data;
-    printf("\tPlease input the number you want to search:");
-    gets(num);
-    Num_modi(num);
-    Check(num, NUM_SIZE);
-    data = Query(head, num);
-    if (data != NULL)
+    //如果链表不存在
+    if (head == NULL)
     {
-        printf("\tOperation Success\n");
-        printf("\t%-8s%-15s%-20s%s\n", data->num, data->name, data->phonenum, data->email);
+        printf("\tThere is no data.\n");
+        return;
     }
-    else
-        printf("\tCannot find this number!\n");
+    while (1)
+    {
+        printf("\tPlease input the number you want to search:");
+        scanf("%s", num);
+        Num_modi(num);
+        Check(num, NUM_SIZE);
+        data = Query(head, num);
+        if (data != NULL)
+        {
+            printf("\tOperation Success\n");
+            printf("\t%-8s%-15s%-20s%s\n", data->num, data->name, data->phonenum, data->email);
+        }
+        else
+            printf("\tCannot find this number!\n");
+        printf("\tEnter 1 to continue to query or 0 to end.");
+        while (1)
+        {
+            printf("\tPlease enter:");
+            scanf("%c", &choice);
+            while (choice == '\n')
+                scanf("%c", &choice);
+            if (choice == '1')
+                break;
+            else if (choice == '0')
+                return;
+            else
+            {
+                printf("\tEnter error. Please retype.\n");
+            }
+        }
+    }
 }
 
 //从文件中整批输入信息
@@ -669,6 +717,7 @@ void Num_modi(char *num)
 TeleBook *Alter_list(TeleBook *head) //待修改！！！
 {
     char s[20];
+    char choice;
     TeleBook *data = head;
     if (head == NULL)
     {
@@ -677,7 +726,7 @@ TeleBook *Alter_list(TeleBook *head) //待修改！！！
     }
     //找到想要修改的结构体//
     printf("\tPlease input the name of the data you want to alter:");
-    gets(s);
+    scanf("%s", s);
     while (strcmp(s, data->name) != 0)
     {
         data = data->next;
@@ -688,55 +737,48 @@ TeleBook *Alter_list(TeleBook *head) //待修改！！！
         }
     }
     printf("\tFound Succeed\n");
-    printf("\tName:");
+    printf("\tName: ");
     puts(data->name);
-    printf("\tNumber:");
+    printf("\tNumber: ");
     puts(data->num);
-    printf("\tPhonenumber:");
+    printf("\tPhonenumber: ");
     puts(data->phonenum);
-    printf("\tE-mail:");
+    printf("\tE-mail: ");
     puts(data->email);
     putchar('\n');
     //选择想要修改的数据//
     while (1)
     {
-        int n;
-        printf("\tAlter(1.Name 2.Number 3.Phonenumber 4.E-mail 5 Quit):");
-        scanf("%d", &n);
-        while (n == '\n')
-            scanf("%d", &n);
-        switch (n)
+        printf("\tAlter(1.Name 2.Number 3.Phonenumber 4.E-mail 5 Quit)\n");
+        printf("\tPlease enter:");
+        scanf("%c", &choice);
+        while (choice == '\n')
+            scanf("%c", &choice);
+        switch (choice)
         {
-        case 1:
-        {
+        case '1':
             printf("\tPlease input new name:");
-            gets(data->name);
-        }
-        break;
-        case 2:
-        {
+            scanf("%s", data->name);
+            break;
+        case '2':
+
             printf("\tPlease input new number:");
-            gets(data->num);
-        }
-        break;
-        case 3:
-        {
+            scanf("%s", data->num);
+            break;
+        case '3':
             printf("\tPlease input new phonenumber:");
-            gets(data->phonenum);
-        }
-        break;
-        case 4:
-        {
+            scanf("%s", data->phonenum);
+            break;
+        case '4':
             printf("\tPlease input new E-mail:");
-            gets(data->email);
-        }
-        break;
-        case 5:
+            scanf("%s", data->email);
+            break;
+        case '5':
             return head;
             break;
         default:
-            printf("\tInput error!");
-            break;
+            printf("\tEnter error! Please retype:");
         }
+        printf("\tDo you want to alter any more?\n");
     }
 }
