@@ -139,7 +139,7 @@ void Display(TeleBook *head)
                 break;
             }
             else
-                printf("\tEnter error! Please enter 1 or 2 to give your choice:");
+                printf("\tEnter error! Please enter 1 or 2 or 3 to give your choice:");
         }
     }
 }

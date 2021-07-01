@@ -144,7 +144,7 @@ int main()
                         break;
                     else
                     {
-                        printf("\tEnter error! Please give your choice in 1 or 2.\n");
+                        printf("\tEnter error! Please give your choice in 1 or 2 or 3.\n");
                         continue;
                     }
                     //先释放空间
