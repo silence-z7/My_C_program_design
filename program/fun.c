@@ -19,7 +19,7 @@ TeleBook *Create()
         while (1)
         {
             scanf("%s %s %s %s", p->num, p->name, p->phonenum, p->email);
-            //进行输入数据检查，是否导致字符数组溢出，如果出现问题则重新输入该条数据
+            //进行输入数据检查，是否导致字符数组溢出，如果出现问题则重新输入整条数据
             if (Check(p->num, NUM_SIZE) == 0)
             {
                 printf("\tNumber enter error! Please retype the whole data and limit the number in %d size.\n", NUM_SIZE);
@@ -46,8 +46,10 @@ TeleBook *Create()
                 ;
             break;
         }
+        //将p插入链表head,并将返回的新的链表指针赋给head
         head = Insert(head, p);
-        printf("\tAdd more data? Enter 1 or enter 0 to end:");
+        //询问是否继续输入
+        printf("\tAdd more data? Enter 1 to continue or enter 0 to end:");
         while (1)
         {
             scanf("%c", &ch);
@@ -80,6 +82,7 @@ void Display(TeleBook *head)
     char choice, choice2;
     //此页首个数据
     TeleBook *page_head;
+    //循环指针
     TeleBook *data = head;
     while (data != NULL)
     {
@@ -264,6 +267,7 @@ TeleBook *Delete(TeleBook *head, char *num) //未检验
             printf("\tDelete Succeed!\n");
             return head;
         }
+        data = data->next;
     }
     printf("\tCannot find the number you input. Delete fail.\n");
     return head;
@@ -603,7 +607,7 @@ void Display_Main_Menu()
     printf("---------------------------------------------\n");
     printf("|                   Menu                    |\n");
     printf("|-------------------------------------------|\n");
-    printf("|       1.Input Record                      |\n");
+    printf("|       1 Input Record                      |\n");
     printf("|       2 Display All Records               |\n");
     printf("|       3 Insert a Record                   |\n");
     printf("|       4 Delete a Record                   |\n");
@@ -613,10 +617,10 @@ void Display_Main_Menu()
     printf("|       8 Write to a Text File              |\n");
     printf("|       9 Reverse List                      |\n");
     printf("|       10 Delete the Same Records          |\n");
-    printf("|       11 Quit                             |\n");
+    printf("|       11 Alter a record                   |\n");
     printf("|       0 Quit                              |\n");
     printf("---------------------------------------------\n");
-    printf("        Please enter your choice(0-10):");
+    printf("        Please enter your choice(0-11):");
 }
 
 //释放链表动态内存

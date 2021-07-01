@@ -135,7 +135,6 @@ int main()
                         printf("\tPlease input the name of the outfile:");
                         scanf("%s", outfile);
                         WritetoText(list, outfile);
-                        break;
                     }
                     //输2直接读取文件
                     else if (choice7 == '2')
