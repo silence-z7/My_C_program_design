@@ -190,7 +190,7 @@ TeleBook *Insert(TeleBook *head, TeleBook *s)
 
 //输入待插入的编号、姓名、联系电话、电子邮件地址等信息，
 //调用Insert函数按“编号”做有序插入，输出插入成功信息，返回链表头指针。
-TeleBook *Insert_a_record(TeleBook *head) //未检验正确性，未考虑出现相同编号的情况
+TeleBook *Insert_a_record(TeleBook *head)
 {
     TeleBook *p = (TeleBook *)malloc(LEN);
     printf("\tPlease input a data(number name phonenumber email):");
@@ -229,7 +229,7 @@ TeleBook *Insert_a_record(TeleBook *head) //未检验正确性，未考虑出现
 //结点删除
 //删除编号为num的记录
 TeleBook *Delete(TeleBook *head, char *num)
-{    
+{
     //循环指针
      TeleBook *data = head;
     //中间指针
