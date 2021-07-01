@@ -60,7 +60,7 @@ int main()
                     //如果是2，直接创建链表并覆盖原数据
                     else if (choice1 == '2')
                         ;
-                    //输2表示取消
+                    //输3表示取消
                     else if (choice1 == '3')
                         break;
                     //其他内容的输入则提示输入错误
@@ -72,7 +72,7 @@ int main()
                     }
                     //释放原链表全部内存并创建新链表
                     Free_all(list);
-                    list = NULL;
+                    list = NULL;//链表中无数据时链表头指针初始化为空指针
                     break;
                 }
             }
