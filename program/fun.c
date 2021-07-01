@@ -11,7 +11,7 @@
 TeleBook *Create()
 {
     TeleBook *head = NULL;
-    TeleBook *p = (TeleBook *)malloc(LEN);
+    TeleBook *p = (TeleBook *)malloc(LEN);//分配一个存放该结构体的空间，使p指向该空间
     char ch = '1';
     while (ch != '0')
     {
@@ -19,7 +19,7 @@ TeleBook *Create()
         while (1)
         {
             scanf("%s %s %s %s", p->num, p->name, p->phonenum, p->email);
-            //进行输入数据检查，是否导致字符数组溢出，如果出现问题则重新输入整条数据
+            //进行输入数据检查，是否导致字符数组溢出，如果出现问题则重新输入该条数据
             if (Check(p->num, NUM_SIZE) == 0)
             {
                 printf("\tNumber enter error! Please retype the whole data and limit the number in %d size.\n", NUM_SIZE);
@@ -41,7 +41,7 @@ TeleBook *Create()
                 continue;
             }
             //如果上述情况都没出现，则成功输入，退出循环
-            //这个循环用于清楚缓冲区多余内容
+            //这个循环用于清除缓冲区多余内容
             while (getchar() != '\n')
                 ;
             break;
@@ -57,7 +57,7 @@ TeleBook *Create()
                 scanf("%c", &ch);
             if (ch == '1')
             {
-                p = malloc(LEN);
+                p = (TeleBook*)malloc(LEN);
                 break;
             }
             else if (ch == '0')
@@ -69,7 +69,6 @@ TeleBook *Create()
                 printf("\tEnter error! Please input 1 or 0.\n");
         }
     }
-
     return head;
 }
 
@@ -110,7 +109,7 @@ void Display(TeleBook *head)
                 //如果page=1表明这是第一页，无法往上翻
                 if (page == 1)
                     printf("\tError! This is the first page. Please retype:");
-                //通过反序链表让page_head向前回溯20个
+                //通过反序链表让page_head向前回溯10个
                 else
                 {
                     page--;
@@ -229,14 +228,14 @@ TeleBook *Insert_a_record(TeleBook *head) //未检验正确性，未考虑出现
 
 //结点删除
 //删除编号为num的记录
-TeleBook *Delete(TeleBook *head, char *num) //未检验
-{
+TeleBook *Delete(TeleBook *head, char *num)
+{    
     //循环指针
-    TeleBook *data = head;
+     TeleBook *data = head;
     //中间指针
     TeleBook *fp;
     char choice;
-    if (strcmp(head->num, num) == 0)
+    if (strcmp(head->num, num) == 0)//若第一个结点为待删除数据
     {
         printf("\tAre you sure to delete it?(y/n):");
         while (1)
@@ -252,7 +251,7 @@ TeleBook *Delete(TeleBook *head, char *num) //未检验
                 printf("\tEnter error. Please enter y or n :");
         }
         fp = head;
-        head = head->next;
+        head = head->next;//使第二个结点成为链表的头
         free(fp);
         printf("\tDelete Succeed!\n");
         return head;
@@ -262,7 +261,7 @@ TeleBook *Delete(TeleBook *head, char *num) //未检验
         if (strcmp(data->next->num, num) == 0)
         {
             fp = data->next;
-            data->next = data->next->next;
+            data->next = data->next->next;//使data直接指向data->next->next
             free(fp);
             printf("\tDelete Succeed!\n");
             return head;
@@ -297,7 +296,7 @@ TeleBook *Delete_a_record(TeleBook *head)
 
 //排序
 //以编号为序升序排
-TeleBook *Sort_by_num(TeleBook *head) //未检验
+TeleBook *Sort_by_num(TeleBook *head)
 {
     //循环指针
     TeleBook *data1, *data2;
@@ -427,11 +426,11 @@ TeleBook *AddfromText(TeleBook *head, char *filename)
         return NULL;
     }
     data = (TeleBook *)malloc(LEN);
-    fscanf(in, "%d", &num);
+    fscanf(in, "%d", &num);//先读取文件前面的数据数
     //如果文件指针不指向文件末尾，读入一条数据并插入链表
     while (!feof(in))
     {
-        fscanf(in, "%s %s %s %s\n", data->num, data->name, data->phonenum, data->email);
+        fscanf(in, "%s %s %s %s\n", data->num, data->name, data->phonenum, data->email);//再读取数据条
         head = Insert(head, data);
         if (!feof(in))
             data = (TeleBook *)malloc(LEN);
@@ -520,10 +519,10 @@ TeleBook *Reverse(TeleBook *head)
     TeleBook *fp1 = NULL, *fp2;
     while (head != NULL)
     {
-        fp2 = head->next;
-        head->next = fp1;
-        fp1 = head;
-        head = fp2;
+        fp2 = head->next;//fp2指向当前的下一个结点
+        head->next = fp1;//使head的下一个是NULL
+        fp1 = head;//把fp1变为下一个本来指向的前一个
+        head = fp2;//将头变为当前的下一个
     }
     return fp1;
 }
@@ -551,8 +550,8 @@ TeleBook *DeleteSame(TeleBook *head)
     }
     for (data = head; data != NULL && data->next != NULL; data = data->next)
     {
-        p1 = data->next;
-        pre = data;
+        p1 = data->next;//相同的不会在前面
+        pre = data;//pre是p1的前一个结点
         while (p1 != NULL)
         {
             if (strcmp(data->name, p1->name) == 0 && strcmp(data->phonenum, p1->phonenum) == 0 && strcmp(data->email, p1->email) == 0)
@@ -584,9 +583,9 @@ void Quit(TeleBook *head)
     printf("\t1.Yes\t0.NO\n");
     while (1)
     {
-        while ((ch = getchar()) == '\n')
+        while ((ch = getchar()) == '\n')//去除缓冲区的换行符 不输出换行符时退出循环
             ;
-        if (ch == '1')
+        if (ch == '1')//释放所有动态内存
         {
             Free_all(head);
             exit(0);
@@ -659,9 +658,9 @@ int Str_to_num(char *str)
     int sum = 0;
     while (*str != '\0')
     {
-        if (*str < '0' || *str > '9')
+        if (*str < '0' || *str > '9')//如果输入字母返回-1
             return -1;
-        sum = sum * 10 + *str - '0';
+        sum = sum * 10 + *str - '0';//将字符型数字转化为数字
         str++;
     }
     return sum;
@@ -683,8 +682,8 @@ void Num_modi(char *num)
     }
 }
 
-//修改数据函数//
-//修改链表中的某数据//
+//修改数据函数
+//修改链表中的某数据
 TeleBook *Alter_list(TeleBook *head) //待修改！！！
 {
     char s[20];
@@ -695,7 +694,7 @@ TeleBook *Alter_list(TeleBook *head) //待修改！！！
         printf("\tThere is no data.\n");
         return head;
     }
-    //找到想要修改的结构体//
+    //找到想要修改的结构体
     printf("\tPlease input the name of the data you want to alter:");
     scanf("%s", s);
     while (strcmp(s, data->name) != 0)
@@ -717,7 +716,7 @@ TeleBook *Alter_list(TeleBook *head) //待修改！！！
     printf("\tE-mail: ");
     puts(data->email);
     putchar('\n');
-    //选择想要修改的数据//
+    //选择想要修改的数据
     while (1)
     {
         printf("\tAlter(1.Name 2.Number 3.Phonenumber 4.E-mail 5 Quit)\n");
