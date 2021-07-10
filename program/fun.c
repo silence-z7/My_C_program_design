@@ -438,7 +438,9 @@ TeleBook *AddfromText(TeleBook *head, char *filename)
     TeleBook *data;
     FILE *in;
     //如果文件打开失败，打印打开错误，返回空指针
-    if ((in = fopen(filename, "r")) == NULL)
+    char file[25] = "data/";
+    strncpy(file, filename, 20);
+    if ((in = fopen(file, "r")) == NULL)
     {
         printf("\tFile open error!\n");
         return NULL;
@@ -471,9 +473,11 @@ void WritetoText(TeleBook *head, char *filename)
     //中间数据指针
     TeleBook *p;
     int num = 0;
+    char file[25] = "data/";
+    strncpy(file, filename, 20);
     //打开文件//
     //如果文件中有内容，即文件原先就存在，则先读取文件中数据记录条数，将文件数据储存在一个临时链表中，之后依次输入两个链表
-    if ((fp = fopen(filename, "r+")) != NULL)
+    if ((fp = fopen(file, "r+")) != NULL)
     {
         p = (TeleBook *)malloc(LEN);
         fscanf(fp, "%d", &num);
@@ -508,7 +512,7 @@ void WritetoText(TeleBook *head, char *filename)
     }
     else
     {
-        if ((fp = fopen(filename, "w")) == NULL)
+        if ((fp = fopen(file, "w")) == NULL)
         {
             printf("\tFile write error.\n");
             return;
