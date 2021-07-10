@@ -19,7 +19,7 @@ int main()
         //如果字符串长度超过规定，提示错误
         if (Check(choice_ch, CHOICE_SIZE) == 0)
         {
-            printf("\tenter error! Please retype your choice1.\n");
+            printf("\tenter error! Please retype your choice and limit it in %d size.\n", CHOICE_SIZE - 1);
             system("pause");
             continue;
         }
@@ -72,7 +72,7 @@ int main()
                     }
                     //释放原链表全部内存并创建新链表
                     Free_all(list);
-                    list = NULL;//链表中无数据时链表头指针初始化为空指针
+                    list = NULL; //链表中无数据时链表头指针初始化为空指针
                     break;
                 }
             }
@@ -116,54 +116,9 @@ int main()
             break;
         //从文件中导入数据到链表
         case 7: //从文件导入数据
-            //如果链表中已存在数据，应先向用户确认储存下该数据还是放弃数据
-            if (list != NULL)
-            {
-                printf("\tData in the linked list is not stored. Do you want to stored them or abandon them?\n");
-                printf("\t1.store them.");
-                printf("\t2.abandon them.");
-                printf("\t3.quit\n");
-                printf("\tPlease enter:");
-                while (1)
-                {
-                    scanf("%c", &choice7);
-                    while (choice7 == '\n')
-                        scanf("%c", &choice7);
-                    //如果输1，将链表中数据先储存在一个文件中
-                    if (choice7 == '1')
-                    {
-                        printf("\tPlease input the name of the outfile:");
-                        scanf("%s", outfile);
-                        WritetoText(list, outfile);
-                    }
-                    //输2直接读取文件
-                    else if (choice7 == '2')
-                        ;
-                    //取消
-                    else if (choice7 == '3')
-                        break;
-                    else
-                    {
-                        printf("\tEnter error! Please give your choice in 1 or 2 or 3.\n");
-                        continue;
-                    }
-                    //先释放空间
-                    Free_all(list);
-                    list = NULL;
-                    //读取文件数据
-                    printf("\tPlease input the name of the infile:");
-                    scanf("%s", infile);
-                    list = AddfromText(list, infile);
-                    break;
-                }
-            }
-            //如果链表中没有数据，则导入数据
-            else
-            {
-                printf("\tPlease input the name of the infile:");
-                scanf("%s", infile);
-                list = AddfromText(list, infile);
-            }
+            printf("\tPlease input the name of the infile:");
+            scanf("%s", infile);
+            list = AddfromText(list, infile);
             system("pause");
             break;
         case 8: //向文件写入数据
